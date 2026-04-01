@@ -4,9 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -34,55 +36,58 @@ fun OnBoardingPage(
     onSkipClicked: () -> Unit = {},
     onLoginClicked: () -> Unit = {},
 ) {
-    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
-        if (isFirstPage) {
-            FirstOnboarding(pageData, onNextClicked)
-        } else {
-            SubsequentOnboardingPage(pageData, isLastPage, onSkipClicked, onNextClicked, onLoginClicked)
-        }
+    if (isFirstPage) {
+        FirstOnboarding(pageData, onNextClicked)
+    } else {
+        SubsequentOnboardingPage(pageData, isLastPage, onSkipClicked, onNextClicked, onLoginClicked)
     }
 }
 
 @Composable
 private fun FirstOnboarding(pageData: PageData, onNextClicked: () -> Unit) {
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(4.4f / 5f),
-        shape = RoundedCornerShape(bottomStart = Dimens.radiusXl, bottomEnd = Dimens.radiusXl),
-        color = MaterialTheme.colorScheme.primaryContainer
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
+        Surface(
             modifier = Modifier
-                .statusBarsPadding()
-                .padding(
-                    start = Dimens.spacingMd,
-                    end = Dimens.spacingMd,
-                    bottom = Dimens.spacingMd
-                ),
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .fillMaxWidth()
+                .weight(1f),
+            shape = RoundedCornerShape(bottomStart = Dimens.radiusXl, bottomEnd = Dimens.radiusXl),
+            color = MaterialTheme.colorScheme.primaryContainer
         ) {
-            VerticalSpacer(Dimens.spacingMd)
-            TitleAndDescription(pageData, centered = true)
-            VerticalSpacer(Dimens.spacingLg)
-            AppImage(
-                resId = pageData.image,
-                contentDescription = null,
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.9f)
-            )
+                    .statusBarsPadding()
+                    .padding(horizontal = Dimens.spacingMd),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                VerticalSpacer(Dimens.spacingMd)
+                TitleAndDescription(pageData, centered = true)
+                VerticalSpacer(Dimens.spacingMd)
+                AppImage(
+                    resId = pageData.image,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                )
+            }
         }
-    }
 
-    TravelPrimaryButton(
-        textRes = R.string.next,
-        onClick = onNextClicked,
-        modifier = Modifier
-            .fillMaxSize()
+        TravelPrimaryButton(
+            textRes = R.string.next,
+            onClick = onNextClicked,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = Dimens.spacingMd, vertical = Dimens.spacingSm)
+        )
+
+        Spacer(modifier = Modifier
             .navigationBarsPadding()
-            .padding(Dimens.spacingMd)
-    )
+            .height(Dimens.spacingXl)
+        )
+    }
 }
 
 @Composable
@@ -103,22 +108,21 @@ private fun SubsequentOnboardingPage(
                     MaterialTheme.colorScheme.secondaryContainer
             )
             .statusBarsPadding()
-            .navigationBarsPadding()
             .padding(horizontal = Dimens.spacingMd, vertical = Dimens.spacingMd),
         horizontalAlignment = Alignment.Start
     ) {
-        VerticalSpacer(Dimens.spacingLg)
+        VerticalSpacer(Dimens.spacingMd)
         TitleAndDescription(pageData, centered = false)
-        VerticalSpacer(Dimens.spacingLg)
+        VerticalSpacer(Dimens.spacingMd)
         AppImage(
             resId = pageData.image,
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.8f),
+                .weight(1f),
             contentDescription = null,
         )
 
-        VerticalSpacer(Dimens.spacingLg)
+        VerticalSpacer(Dimens.spacingMd)
 
         if (!isLastPage) {
             Row(
@@ -142,6 +146,11 @@ private fun SubsequentOnboardingPage(
                 onClick = onLoginClicked
             )
         }
+
+        Spacer(modifier = Modifier
+            .navigationBarsPadding()
+            .height(Dimens.spacingLg)
+        )
     }
 }
 
