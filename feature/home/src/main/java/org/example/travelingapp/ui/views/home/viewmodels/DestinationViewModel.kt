@@ -1,5 +1,6 @@
 package org.example.travelingapp.ui.views.home.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,54 +25,48 @@ class DestinationViewModel @Inject constructor(
     private val _destinations = MutableStateFlow<List<Destination>>(emptyList())
     val destinations: StateFlow<List<Destination>> = _destinations.asStateFlow()
 
-    private val _isLoading = MutableStateFlow(false)
+    private val _isLoading = MutableStateFlow(true)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
-    private val _errorMessage = MutableStateFlow<String?>(null)
-    val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
-
     init {
-        loadDestinations()
+        observeLocalData()
+        syncFromBackend()
     }
 
-    private fun loadDestinations() {
+    private fun observeLocalData() {
         viewModelScope.launch {
-            // Show cached data immediately
-            launch {
-                destinationRepository.getLocalDestinations().collect { local ->
-                    if (local.isNotEmpty()) _destinations.value = local
-                }
+            destinationRepository.getLocalDestinations().collect { local ->
+                _destinations.value = local
             }
+        }
+    }
 
-            // Try to sync from backend
-            _isLoading.value = true
-            val token = ensureValidToken()
-            if (token != null) {
-                runCatching {
-                    destinationRepository.syncAndPersist("Bearer $token", DestinationRequest())
-                }.onFailure {
-                    _errorMessage.value = null // Silent fail, use cached data
+    private fun syncFromBackend() {
+        viewModelScope.launch {
+            try {
+                // Get a valid token - login if needed
+                var token = tokenManager.fetchToken()
+                if (token == null || token == "offline-session") {
+                    val loginResponse = accountRepository.remoteLogin("admin", "Admin123!")
+                    if (loginResponse.success && loginResponse.data?.token != null) {
+                        token = loginResponse.data!!.token
+                        tokenManager.saveToken(token)
+                    }
                 }
+
+                if (token != null && token != "offline-session") {
+                    destinationRepository.syncAndPersist("Bearer $token", DestinationRequest())
+                }
+            } catch (e: Exception) {
+                Log.w("DestinationVM", "Sync failed: ${e.message}")
+            } finally {
+                _isLoading.value = false
             }
-            _isLoading.value = false
         }
     }
 
     fun refresh() {
-        loadDestinations()
-    }
-
-    private suspend fun ensureValidToken(): String? {
-        val current = tokenManager.fetchToken()
-        if (current != null && current != "offline-session") return current
-
-        // Need to authenticate online — try with cached credentials
-        return runCatching {
-            val response = accountRepository.remoteLogin("admin", "Admin123!")
-            if (response.success && response.data?.token != null) {
-                tokenManager.saveToken(response.data!!.token)
-                response.data!!.token
-            } else null
-        }.getOrNull()
+        _isLoading.value = true
+        syncFromBackend()
     }
 }

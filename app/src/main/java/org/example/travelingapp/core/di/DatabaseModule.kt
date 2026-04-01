@@ -32,6 +32,7 @@ object DatabaseModule {
                     super.onCreate(db)
                     seedTransports(db)
                     seedUsers(db)
+                    seedDestinations(db)
                 }
             })
             .fallbackToDestructiveMigration(true)
@@ -68,6 +69,31 @@ object DatabaseModule {
             put("updateAt", System.currentTimeMillis())
             put("passwordHash", PasswordHasher.hash("Admin123!"))
             put("role", "Admin")
+        })
+    }
+
+    private fun seedDestinations(db: SupportSQLiteDatabase) {
+        db.insert("destinations", SQLiteDatabase.CONFLICT_REPLACE, ContentValues().apply {
+            put("id", "a1b2c3d4-0001-0001-0001-000000000001")
+            put("name", "Playa de Cancún")
+            put("description", "Hermosas playas de arena blanca y aguas turquesa en la Riviera Maya")
+            put("country", "México")
+            put("imageUrl", "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=800")
+            put("category", "beach")
+            put("createdBy", "1234567A")
+            put("createdAt", System.currentTimeMillis())
+            put("updatedAt", System.currentTimeMillis())
+        })
+        db.insert("destinations", SQLiteDatabase.CONFLICT_REPLACE, ContentValues().apply {
+            put("id", "a1b2c3d4-0001-0001-0001-000000000002")
+            put("name", "Alpes Suizos")
+            put("description", "Montañas nevadas espectaculares con vistas panorámicas")
+            put("country", "Suiza")
+            put("imageUrl", "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=800")
+            put("category", "mountain")
+            put("createdBy", "1234567A")
+            put("createdAt", System.currentTimeMillis())
+            put("updatedAt", System.currentTimeMillis())
         })
     }
 

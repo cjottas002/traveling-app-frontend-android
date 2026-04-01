@@ -23,7 +23,7 @@ class TokenManager @Inject constructor(
         private val KEY_AUTH_TOKEN = stringPreferencesKey("KEY_AUTH_TOKEN")
     }
 
-    private val authToken: Flow<String?> = context.authDataStore.data
+    val tokenFlow: Flow<String?> = context.authDataStore.data
         .map { prefs -> prefs[KEY_AUTH_TOKEN] }
 
     suspend fun saveToken(token: String) {
@@ -33,7 +33,7 @@ class TokenManager @Inject constructor(
     }
 
     suspend fun fetchToken(): String? {
-        return authToken.first()
+        return tokenFlow.first()
     }
 
     suspend fun clearToken() {

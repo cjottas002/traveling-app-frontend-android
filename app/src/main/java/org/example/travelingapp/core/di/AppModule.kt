@@ -27,7 +27,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private const val BASE_URL_BACKEND = "http://10.0.2.2:5090/"
+    private const val BASE_URL_BACKEND = "http://192.168.1.66:5090/"
     private const val BASE_URL_MOCK = "https://01394d44-8918-4a1d-8059-629c50c25e87.mock.pstmn.io/"
 
     @Provides
