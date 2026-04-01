@@ -32,7 +32,8 @@ class DestinationRepository @Inject constructor(
 
     override suspend fun syncAndPersist(token: String, request: DestinationRequest) {
         val response = getRemoteDestinations(token, request)
-        if (response.success && response.data.isNotEmpty()) {
+        if (response.success) {
+            destinationDao.deleteRemoteOnly()
             destinationDao.insertAll(response.toEntities())
         }
     }

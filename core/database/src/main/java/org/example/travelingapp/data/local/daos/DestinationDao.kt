@@ -21,4 +21,7 @@ interface DestinationDao {
 
     @Query("DELETE FROM destinations")
     suspend fun deleteAll()
+
+    @Query("DELETE FROM destinations WHERE imageUrl NOT LIKE 'local:%'")
+    suspend fun deleteRemoteOnly()
 }
