@@ -93,12 +93,10 @@ class AuthViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             runCatching { accountRepository.remoteLogin(username, pass) }
-                .onFailure { throwable ->
-                    onError(
-                        throwable.localizedMessage
-                            ?.takeIf { it.isNotBlank() }
-                            ?: context.getString(R.string.login_failed)
-                    )
+                .onFailure {
+                    // Network failure — fallback to offline login
+                    loginOfflineAction(username, pass, onSuccess, onError)
+                    return@launch
                 }
                 .onSuccess { response ->
                     response.takeIf { it.success }?.data?.token?.also { token ->
