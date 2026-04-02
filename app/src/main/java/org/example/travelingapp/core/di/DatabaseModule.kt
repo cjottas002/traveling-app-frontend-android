@@ -70,6 +70,14 @@ object DatabaseModule {
             put("passwordHash", PasswordHasher.hash("Admin123!"))
             put("role", "Admin")
         })
+        db.insert("users", SQLiteDatabase.CONFLICT_REPLACE, ContentValues().apply {
+            put("id", "1234567B")
+            put("username", "customer1")
+            put("email", "customer1@test.com")
+            put("updateAt", System.currentTimeMillis())
+            put("passwordHash", PasswordHasher.hash("Customer1!"))
+            put("role", "Customer")
+        })
     }
 
     private fun seedDestinations(db: SupportSQLiteDatabase) {

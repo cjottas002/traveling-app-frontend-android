@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.map
 import org.example.travelingapp.core.extensions.toQueryMap
 import org.example.travelingapp.core.request.destination.CreateDestinationRequest
 import org.example.travelingapp.core.request.destination.DestinationRequest
+import org.example.travelingapp.core.request.destination.UpdateDestinationRequest
 import org.example.travelingapp.core.response.destination.DestinationListResponse
 import org.example.travelingapp.core.response.destination.DestinationResponse
 import org.example.travelingapp.data.local.daos.DestinationDao
@@ -36,6 +37,22 @@ class DestinationRepository @Inject constructor(
             destinationDao.deleteRemoteOnly()
             destinationDao.insertAll(response.toEntities())
         }
+    }
+
+    override suspend fun updateDestination(token: String, request: UpdateDestinationRequest): DestinationResponse {
+        return destinationService.updateDestination(token, request).body() ?: DestinationResponse()
+    }
+
+    override suspend fun deleteDestination(token: String, id: String): DestinationResponse {
+        return destinationService.deleteDestination(token, id).body() ?: DestinationResponse()
+    }
+
+    override suspend fun getDestinationById(token: String, id: String): DestinationResponse {
+        return destinationService.getDestinationById(token, id).body() ?: DestinationResponse()
+    }
+
+    override suspend fun getLocalDestinationById(id: String): Destination? {
+        return destinationDao.getById(id)?.toDomain()
     }
 
     override fun getLocalDestinations(): Flow<List<Destination>> {

@@ -21,10 +21,15 @@ class TokenManager @Inject constructor(
 ) {
     companion object {
         private val KEY_AUTH_TOKEN = stringPreferencesKey("KEY_AUTH_TOKEN")
+        private val KEY_USER_ROLE = stringPreferencesKey("KEY_USER_ROLE")
+        private val KEY_USERNAME = stringPreferencesKey("KEY_USERNAME")
     }
 
     val tokenFlow: Flow<String?> = context.authDataStore.data
         .map { prefs -> prefs[KEY_AUTH_TOKEN] }
+
+    val roleFlow: Flow<String?> = context.authDataStore.data
+        .map { prefs -> prefs[KEY_USER_ROLE] }
 
     suspend fun saveToken(token: String) {
         context.authDataStore.edit { prefs ->
@@ -32,13 +37,31 @@ class TokenManager @Inject constructor(
         }
     }
 
+    suspend fun saveSession(token: String, role: String?, username: String?) {
+        context.authDataStore.edit { prefs ->
+            prefs[KEY_AUTH_TOKEN] = token
+            role?.let { prefs[KEY_USER_ROLE] = it }
+            username?.let { prefs[KEY_USERNAME] = it }
+        }
+    }
+
     suspend fun fetchToken(): String? {
         return tokenFlow.first()
+    }
+
+    suspend fun fetchRole(): String? {
+        return context.authDataStore.data.map { it[KEY_USER_ROLE] }.first()
+    }
+
+    suspend fun fetchUsername(): String? {
+        return context.authDataStore.data.map { it[KEY_USERNAME] }.first()
     }
 
     suspend fun clearToken() {
         context.authDataStore.edit { prefs ->
             prefs.remove(KEY_AUTH_TOKEN)
+            prefs.remove(KEY_USER_ROLE)
+            prefs.remove(KEY_USERNAME)
         }
     }
 }

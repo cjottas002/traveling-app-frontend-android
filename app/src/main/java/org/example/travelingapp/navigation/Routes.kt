@@ -22,4 +22,10 @@ sealed interface Route {
 
     @Serializable
     data object RentCar : Route
+
+    @Serializable
+    data class DestinationDetail(val destinationId: String) : Route
+
+    @Serializable
+    data object CreateDestination : Route
 }

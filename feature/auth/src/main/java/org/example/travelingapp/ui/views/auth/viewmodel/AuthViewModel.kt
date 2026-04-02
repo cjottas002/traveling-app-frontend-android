@@ -84,8 +84,9 @@ class AuthViewModel @Inject constructor(
             // 1. Try offline first (instant)
             val offlineResponse = accountRepository.localLogin(user, pass)
             if (offlineResponse.success && offlineResponse.data != null) {
-                tokenManager.saveToken(offlineResponse.data!!.token)
-                onSuccess(offlineResponse.data!!.token)
+                val data = offlineResponse.data!!
+                tokenManager.saveSession(data.token, data.role, user)
+                onSuccess(data.token)
 
                 // Background: get real JWT for API calls
                 launch {

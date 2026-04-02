@@ -25,7 +25,13 @@ import kotlinx.coroutines.launch
 import org.example.travelingapp.feature.home.R
 
 @Composable
-fun HomeView(navController: NavController, onNavigateToRentCar: () -> Unit) {
+fun HomeView(
+    navController: NavController,
+    onNavigateToRentCar: () -> Unit,
+    onNavigateToCreateDestination: () -> Unit = {},
+    onNavigateToDestinationDetail: (String) -> Unit = {},
+    isAdmin: Boolean = false
+) {
     val scope = rememberCoroutineScope()
 
     val tabs = listOf(
@@ -84,7 +90,11 @@ fun HomeView(navController: NavController, onNavigateToRentCar: () -> Unit) {
                 .statusBarsPadding()
         ) { page ->
             when (page) {
-                0 -> HomeTab()
+                0 -> HomeTab(
+                    isAdmin = isAdmin,
+                    onCreateDestination = onNavigateToCreateDestination,
+                    onDestinationClick = onNavigateToDestinationDetail
+                )
                 1 -> TransportTab()
                 2 -> HotelTab()
                 3 -> ThreeTab()

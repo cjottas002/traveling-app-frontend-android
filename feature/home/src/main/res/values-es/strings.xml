@@ -13,4 +13,17 @@
     <string name="tab_profile">Perfil</string>
     <string name="coming_soon">Próximamente</string>
     <string name="coming_soon_description">Esta sección está en desarrollo</string>
+    <string name="create_destination">Crear destino</string>
+    <string name="destination_name">Nombre</string>
+    <string name="destination_description">Descripción</string>
+    <string name="destination_country">País</string>
+    <string name="destination_category">Categoría</string>
+    <string name="destination_image_url">URL de imagen (opcional)</string>
+    <string name="no_destinations">Aún no hay destinos</string>
+    <string name="destination_detail">Destino</string>
+    <string name="edit_destination">Editar</string>
+    <string name="delete_destination">Eliminar</string>
+    <string name="delete_destination_confirm">¿Estás seguro de que quieres eliminar este destino?</string>
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
 </resources>

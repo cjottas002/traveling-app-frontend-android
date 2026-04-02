@@ -49,7 +49,7 @@ class AccountRepository @Inject constructor(
         }
 
         return LoginResponse(
-            data = LoginDto(userId = cached.id, token = "offline-session"),
+            data = LoginDto(userId = cached.id, token = "offline-session", role = cached.role),
             count = 1
         )
     }
