@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,20 +37,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.core.net.toUri
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import org.example.travelingapp.feature.auth.R
+import org.example.travelingapp.ui.testtags.AuthTestTags
 import org.example.travelingapp.ui.theme.Dimens
 import org.example.travelingapp.ui.views.auth.viewmodel.AuthViewModel
 import org.example.travelingapp.ui.views.components.AppText
 import org.example.travelingapp.ui.views.components.AppTextField
 import org.example.travelingapp.ui.views.components.TravelPrimaryButton
 import org.example.travelingapp.ui.views.components.VerticalSpacer
-import org.example.travelingapp.ui.testtags.AuthTestTags
 
 @Composable
 fun RegisterView(navController: NavController, onNavigateToLogin: () -> Unit) {
