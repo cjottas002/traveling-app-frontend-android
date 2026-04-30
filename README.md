@@ -2,16 +2,6 @@
 
 Aplicaciones cliente para la gestion de viajes.
 
-## Plataformas
-
-| Plataforma | Directorio | Estado |
-|------------|-----------|--------|
-| Android | `android/` | Activo |
-| iOS | `ios/` | Pendiente |
-| Web (Angular) | `web/` | Pendiente |
-
-## Android
-
 Aplicacion nativa desarrollada con Kotlin y Jetpack Compose.
 
 ### Tecnologias
