@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.ui.text.google.fonts)
     // Required for @Preview rendering inside Android Studio canvas.
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.material3)

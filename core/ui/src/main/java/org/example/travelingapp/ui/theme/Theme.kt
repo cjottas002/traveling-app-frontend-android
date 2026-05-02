@@ -9,6 +9,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -91,6 +92,8 @@ fun TravelingAppTheme(
         else -> LightColorScheme
     }
 
+    val travelColors = if (darkTheme) DarkTravelColors else LightTravelColors
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
@@ -102,9 +105,11 @@ fun TravelingAppTheme(
         }
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(LocalTravelColors provides travelColors) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }
