@@ -33,7 +33,7 @@ fun TravelLinkButton(
     color: Color = MaterialTheme.colorScheme.onBackground,
     textAlign: TextAlign = TextAlign.Center
 ) {
-    AppText(
+    TravelText(
         textRes = textRes,
         style = MaterialTheme.typography.bodyMedium,
         color = color,

@@ -34,13 +34,13 @@ import org.example.travelingapp.feature.auth.R
 import org.example.travelingapp.ui.theme.Dimens
 import org.example.travelingapp.ui.theme.TravelingAppTheme
 import org.example.travelingapp.ui.views.auth.viewmodel.AuthViewModel
-import org.example.travelingapp.ui.views.components.AppText
-import org.example.travelingapp.ui.views.components.AppTextField
+import org.example.travelingapp.ui.views.components.TravelText
+import org.example.travelingapp.ui.views.components.TravelTextField
 import org.example.travelingapp.ui.views.components.TravelCard
 import org.example.travelingapp.ui.views.components.TravelCardStyle
 import org.example.travelingapp.ui.views.components.TravelLinkButton
 import org.example.travelingapp.ui.views.components.TravelPrimaryButton
-import org.example.travelingapp.ui.views.components.VerticalSpacer
+import org.example.travelingapp.ui.views.components.TravelVerticalSpacer
 import org.example.travelingapp.ui.testtags.AuthTestTags
 
 @Composable
@@ -130,7 +130,7 @@ fun LoginContent(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
-            AppText(
+            TravelText(
                 textRes = R.string.login,
                 style = MaterialTheme.typography.headlineMedium,
                 color = Color.White,
@@ -138,16 +138,16 @@ fun LoginContent(
             )
 
             TravelCard(style = TravelCardStyle.Translucent) {
-                AppTextField(
+                TravelTextField(
                     value = username,
                     onValueChange = onUsernameChanged,
                     labelRes = R.string.username,
                     modifier = Modifier.testTag(AuthTestTags.LOGIN_USERNAME_FIELD)
                 )
 
-                VerticalSpacer(Dimens.cardSpacing)
+                TravelVerticalSpacer(Dimens.cardSpacing)
 
-                AppTextField(
+                TravelTextField(
                     value = password,
                     onValueChange = onPasswordChanged,
                     labelRes = R.string.password,
@@ -157,7 +157,7 @@ fun LoginContent(
                     modifier = Modifier.testTag(AuthTestTags.LOGIN_PASSWORD_FIELD)
                 )
 
-                VerticalSpacer(Dimens.cardSpacing)
+                TravelVerticalSpacer(Dimens.cardSpacing)
 
                 TravelPrimaryButton(
                     textRes = R.string.login,
@@ -169,7 +169,7 @@ fun LoginContent(
                 )
             }
 
-            VerticalSpacer(Dimens.cardSpacing)
+            TravelVerticalSpacer(Dimens.cardSpacing)
 
             TravelLinkButton(
                 textRes = R.string.forgot_password,

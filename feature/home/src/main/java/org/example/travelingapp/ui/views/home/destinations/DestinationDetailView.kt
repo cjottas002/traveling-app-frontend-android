@@ -13,17 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuAnchorType
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -34,20 +24,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import org.example.travelingapp.feature.home.R
 import org.example.travelingapp.ui.theme.Dimens
-import org.example.travelingapp.ui.views.components.AppTextField
-import org.example.travelingapp.ui.views.components.AppToolBar
+import org.example.travelingapp.ui.views.components.TravelDialog
+import org.example.travelingapp.ui.views.components.TravelDropdown
+import org.example.travelingapp.ui.views.components.TravelIconButton
 import org.example.travelingapp.ui.views.components.TravelPrimaryButton
+import org.example.travelingapp.ui.views.components.TravelScaffold
 import org.example.travelingapp.ui.views.components.TravelSecondaryButton
-import org.example.travelingapp.ui.views.components.VerticalSpacer
+import org.example.travelingapp.ui.views.components.TravelText
+import org.example.travelingapp.ui.views.components.TravelTextField
+import org.example.travelingapp.ui.views.components.TravelToolBar
+import org.example.travelingapp.ui.views.components.TravelVerticalSpacer
 import org.example.travelingapp.ui.views.home.viewmodels.DestinationDetailViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DestinationDetailView(
     destinationId: String,
@@ -66,25 +59,23 @@ fun DestinationDetailView(
     var showDeleteDialog by remember { mutableStateOf(false) }
 
     val categories = listOf("beach", "mountain", "city", "nature")
-    var expanded by remember { mutableStateOf(false) }
 
     viewModel.loadIfNeeded(destinationId)
 
-    Scaffold(
+    TravelScaffold(
         topBar = {
-            AppToolBar(
+            TravelToolBar(
                 showBack = true,
                 titleRes = if (isEditing) R.string.edit_destination else R.string.destination_detail,
                 navController = navController
             ) {
                 if (isAdmin && !isEditing) {
-                    IconButton(onClick = { showDeleteDialog = true }) {
-                        Icon(
-                            Icons.Filled.Delete,
-                            contentDescription = stringResource(R.string.delete_destination),
-                            tint = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
+                    TravelIconButton(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = null,
+                        iconTint = MaterialTheme.colorScheme.onPrimary,
+                        onClick = { showDeleteDialog = true }
+                    )
                 }
             }
         }
@@ -121,41 +112,28 @@ fun DestinationDetailView(
                         contentScale = ContentScale.Crop
                     )
                 }
-                VerticalSpacer(Dimens.spacingMd)
+                TravelVerticalSpacer(Dimens.spacingMd)
             }
 
             if (isEditing && isAdmin) {
                 // Edit mode
-                AppTextField(value = name, onValueChange = { viewModel.onNameChanged(it) }, labelRes = R.string.destination_name)
-                VerticalSpacer(Dimens.spacingSm)
-                AppTextField(value = country, onValueChange = { viewModel.onCountryChanged(it) }, labelRes = R.string.destination_country)
-                VerticalSpacer(Dimens.spacingSm)
+                TravelTextField(value = name, onValueChange = { viewModel.onNameChanged(it) }, labelRes = R.string.destination_name)
+                TravelVerticalSpacer(Dimens.spacingSm)
+                TravelTextField(value = country, onValueChange = { viewModel.onCountryChanged(it) }, labelRes = R.string.destination_country)
+                TravelVerticalSpacer(Dimens.spacingSm)
 
-                ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = !expanded }) {
-                    AppTextField(
-                        value = category,
-                        onValueChange = {},
-                        labelRes = R.string.destination_category,
-                        readOnly = true,
-                        modifier = Modifier
-                            .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, enabled = true)
-                            .fillMaxWidth()
-                    )
-                    ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                        categories.forEach { option ->
-                            DropdownMenuItem(
-                                text = { Text(option) },
-                                onClick = { viewModel.onCategoryChanged(option); expanded = false }
-                            )
-                        }
-                    }
-                }
+                TravelDropdown(
+                    value = category,
+                    labelRes = R.string.destination_category,
+                    options = categories,
+                    onSelected = { viewModel.onCategoryChanged(it) }
+                )
 
-                VerticalSpacer(Dimens.spacingSm)
-                AppTextField(value = description, onValueChange = { viewModel.onDescriptionChanged(it) }, labelRes = R.string.destination_description)
-                VerticalSpacer(Dimens.spacingSm)
-                AppTextField(value = imageUrl, onValueChange = { viewModel.onImageUrlChanged(it) }, labelRes = R.string.destination_image_url)
-                VerticalSpacer(Dimens.spacingLg)
+                TravelVerticalSpacer(Dimens.spacingSm)
+                TravelTextField(value = description, onValueChange = { viewModel.onDescriptionChanged(it) }, labelRes = R.string.destination_description)
+                TravelVerticalSpacer(Dimens.spacingSm)
+                TravelTextField(value = imageUrl, onValueChange = { viewModel.onImageUrlChanged(it) }, labelRes = R.string.destination_image_url)
+                TravelVerticalSpacer(Dimens.spacingLg)
 
                 Row(modifier = Modifier.fillMaxWidth()) {
                     TravelSecondaryButton(
@@ -177,13 +155,17 @@ fun DestinationDetailView(
                 }
             } else {
                 // View mode
-                Text(name, style = MaterialTheme.typography.headlineSmall)
-                VerticalSpacer(Dimens.spacingXs)
-                Text("$country · $category", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                VerticalSpacer(Dimens.spacingMd)
+                TravelText(text = name, style = MaterialTheme.typography.headlineSmall)
+                TravelVerticalSpacer(Dimens.spacingXs)
+                TravelText(
+                    text = "$country · $category",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                TravelVerticalSpacer(Dimens.spacingMd)
                 if (description.isNotBlank()) {
-                    Text(description, style = MaterialTheme.typography.bodyLarge)
-                    VerticalSpacer(Dimens.spacingMd)
+                    TravelText(text = description, style = MaterialTheme.typography.bodyLarge)
+                    TravelVerticalSpacer(Dimens.spacingMd)
                 }
 
                 if (isAdmin) {
@@ -197,22 +179,20 @@ fun DestinationDetailView(
     }
 
     if (showDeleteDialog) {
-        AlertDialog(
+        TravelDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text(stringResource(R.string.delete_destination)) },
-            text = { Text(stringResource(R.string.delete_destination_confirm)) },
-            confirmButton = {
-                TextButton(onClick = {
-                    showDeleteDialog = false
-                    viewModel.delete(
-                        onSuccess = { navController.popBackStack() },
-                        onError = { msg -> Toast.makeText(context, msg, Toast.LENGTH_SHORT).show() }
-                    )
-                }) { Text(stringResource(R.string.delete_destination)) }
+            titleRes = R.string.delete_destination,
+            textRes = R.string.delete_destination_confirm,
+            confirmTextRes = R.string.delete_destination,
+            onConfirm = {
+                showDeleteDialog = false
+                viewModel.delete(
+                    onSuccess = { navController.popBackStack() },
+                    onError = { msg -> Toast.makeText(context, msg, Toast.LENGTH_SHORT).show() }
+                )
             },
-            dismissButton = {
-                TextButton(onClick = { showDeleteDialog = false }) { Text(stringResource(R.string.cancel)) }
-            }
+            dismissTextRes = R.string.cancel,
+            onDismiss = { showDeleteDialog = false }
         )
     }
 }

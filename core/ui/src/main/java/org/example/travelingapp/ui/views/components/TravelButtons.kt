@@ -79,12 +79,25 @@ fun TravelTextButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    TravelTextButton(
+        text = stringResource(textRes),
+        onClick = onClick,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun TravelTextButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     androidx.compose.material3.TextButton(
         onClick = onClick,
         modifier = modifier
     ) {
         Text(
-            text = stringResource(textRes),
+            text = text,
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.primary
         )

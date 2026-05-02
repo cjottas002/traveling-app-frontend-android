@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.TextUnit
 
 
 @Composable
-fun AppText(
+fun TravelText(
     text: String,
     modifier: Modifier = Modifier,
     style: TextStyle = MaterialTheme.typography.bodyLarge,
@@ -44,7 +44,7 @@ fun AppText(
 
 
 @Composable
-fun AppText(
+fun TravelText(
     @StringRes textRes: Int,
     modifier: Modifier = Modifier,
     style: TextStyle = MaterialTheme.typography.bodyLarge,
@@ -55,7 +55,7 @@ fun AppText(
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip
 ) {
-    AppText(
+    TravelText(
         text = stringResource(textRes),
         modifier = modifier,
         style = style,
@@ -70,28 +70,28 @@ fun AppText(
 
 @androidx.compose.ui.tooling.preview.Preview(showBackground = true, name = "Text styles")
 @Composable
-private fun AppTextPreview() {
+private fun TravelTextPreview() {
     org.example.travelingapp.ui.theme.TravelingAppTheme {
         androidx.compose.foundation.layout.Column(
             modifier = Modifier.padding(org.example.travelingapp.ui.theme.Dimens.screenPadding)
         ) {
-            AppText(
+            TravelText(
                 text = "Headline Medium",
                 style = MaterialTheme.typography.headlineMedium
             )
-            AppText(
+            TravelText(
                 text = "Title Large",
                 style = MaterialTheme.typography.titleLarge
             )
-            AppText(
+            TravelText(
                 text = "Body Large — the quick brown fox jumps over the lazy dog.",
                 style = MaterialTheme.typography.bodyLarge
             )
-            AppText(
+            TravelText(
                 text = "Body Medium — smaller support text.",
                 style = MaterialTheme.typography.bodyMedium
             )
-            AppText(
+            TravelText(
                 text = "Label Small caption",
                 style = MaterialTheme.typography.labelSmall
             )

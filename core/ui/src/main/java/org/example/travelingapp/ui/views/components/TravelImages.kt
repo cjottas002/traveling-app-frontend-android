@@ -11,7 +11,7 @@ import androidx.compose.ui.res.painterResource
 
 
 @Composable
-fun AppImage(
+fun TravelImage(
     @DrawableRes resId: Int,
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
@@ -28,7 +28,7 @@ fun AppImage(
 
 
 @Composable
-fun AppImage(
+fun TravelImage(
     modifier: Modifier = Modifier,
     bitmap: ImageBitmap? = null,
     @DrawableRes resId: Int,

@@ -8,16 +8,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 
 @Composable
-fun VerticalSpacer(height: Dp) {
+fun TravelVerticalSpacer(height: Dp) {
     Spacer(Modifier.height(height))
 }
 
 @Composable
-fun VerticalSpacer(modifier: Modifier = Modifier, height: Dp) {
+fun TravelVerticalSpacer(modifier: Modifier = Modifier, height: Dp) {
     Spacer(modifier.height(height))
 }
 
 @Composable
-fun HorizontalSpacer(width: Dp) {
+fun TravelHorizontalSpacer(width: Dp) {
     Spacer(Modifier.width(width))
 }

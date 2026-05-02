@@ -11,9 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -26,9 +23,11 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import org.example.travelingapp.domain.entities.Transport
 import org.example.travelingapp.feature.home.R
 import org.example.travelingapp.ui.theme.Dimens
-import org.example.travelingapp.ui.views.components.AppImage
-import org.example.travelingapp.ui.views.components.AppText
-import org.example.travelingapp.ui.views.components.VerticalSpacer
+import org.example.travelingapp.ui.views.components.TravelCard
+import org.example.travelingapp.ui.views.components.TravelCardStyle
+import org.example.travelingapp.ui.views.components.TravelImage
+import org.example.travelingapp.ui.views.components.TravelText
+import org.example.travelingapp.ui.views.components.TravelVerticalSpacer
 import org.example.travelingapp.ui.views.home.viewmodels.TransportViewModel
 
 @Composable
@@ -42,13 +41,13 @@ fun TransportTab(transportViewModel: TransportViewModel = hiltViewModel()) {
             .padding(horizontal = Dimens.spacingMd)
     ) {
         item {
-            VerticalSpacer(Dimens.spacingMd)
-            AppText(
+            TravelVerticalSpacer(Dimens.spacingMd)
+            TravelText(
                 text = stringResource(R.string.tab_transport),
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onBackground
             )
-            VerticalSpacer(Dimens.spacingLg)
+            TravelVerticalSpacer(Dimens.spacingLg)
         }
 
         items(transports) { transport ->
@@ -61,38 +60,32 @@ fun TransportTab(transportViewModel: TransportViewModel = hiltViewModel()) {
 
 @Composable
 fun TransportItem(transport: Transport, onClick: () -> Unit) {
-    Card(
+    TravelCard(
         modifier = Modifier
-            .fillMaxWidth()
             .padding(bottom = Dimens.spacingSm)
             .clickable(onClick = onClick),
-        shape = RoundedCornerShape(Dimens.radiusLg),
-        elevation = CardDefaults.cardElevation(Dimens.elevationSm),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        )
+        style = TravelCardStyle.Elevated,
+        contentPadding = Dimens.spacingMd
     ) {
         Row(
-            modifier = Modifier
-                .padding(Dimens.spacingMd)
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                AppText(
+                TravelText(
                     text = transport.name,
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
-                VerticalSpacer(Dimens.spacingXs)
-                AppText(
+                TravelVerticalSpacer(Dimens.spacingXs)
+                TravelText(
                     text = transport.price,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
             }
-            AppImage(
+            TravelImage(
                 resId = transport.imageRes,
                 contentDescription = null,
                 modifier = Modifier

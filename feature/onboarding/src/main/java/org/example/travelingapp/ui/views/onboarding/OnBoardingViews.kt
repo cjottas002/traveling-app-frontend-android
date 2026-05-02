@@ -24,9 +24,9 @@ import org.example.travelingapp.ui.theme.Dimens
 import org.example.travelingapp.ui.theme.TravelingAppTheme
 import org.example.travelingapp.ui.views.components.TravelPrimaryButton
 import org.example.travelingapp.ui.views.components.TravelSecondaryButton
-import org.example.travelingapp.ui.views.components.AppText
-import org.example.travelingapp.ui.views.components.PagerIndicator
-import org.example.travelingapp.ui.views.components.VerticalSpacer
+import org.example.travelingapp.ui.views.components.TravelText
+import org.example.travelingapp.ui.views.components.TravelPagerIndicator
+import org.example.travelingapp.ui.views.components.TravelVerticalSpacer
 import org.example.travelingapp.core.ui.R
 import org.example.travelingapp.feature.onboarding.R as OnboardingR
 
@@ -71,21 +71,21 @@ fun OnBoardingPage(
                 .padding(bottom = Dimens.screenBottomPadding),
             verticalArrangement = Arrangement.Bottom
         ) {
-            AppText(
+            TravelText(
                 text = pageData.title,
                 style = androidx.compose.material3.MaterialTheme.typography.headlineMedium,
                 color = Color.White,
                 modifier = Modifier.fillMaxWidth()
             )
-            VerticalSpacer(Dimens.spacingSm)
-            AppText(
+            TravelVerticalSpacer(Dimens.spacingSm)
+            TravelText(
                 text = pageData.desc,
                 style = androidx.compose.material3.MaterialTheme.typography.bodyLarge,
                 color = Color.White.copy(alpha = 0.85f),
                 modifier = Modifier.fillMaxWidth()
             )
 
-            VerticalSpacer(Dimens.sectionSpacing)
+            TravelVerticalSpacer(Dimens.sectionSpacing)
 
             if (isFirstPage) {
                 TravelPrimaryButton(
@@ -117,9 +117,9 @@ fun OnBoardingPage(
                 )
             }
 
-            VerticalSpacer(Dimens.cardSpacing)
+            TravelVerticalSpacer(Dimens.cardSpacing)
 
-            PagerIndicator(
+            TravelPagerIndicator(
                 size = pageCount,
                 currentPage = currentPage,
                 activeColor = Color.White,
@@ -127,7 +127,7 @@ fun OnBoardingPage(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 
-            VerticalSpacer(Dimens.spacingSm)
+            TravelVerticalSpacer(Dimens.spacingSm)
         }
     }
 }

@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import org.example.travelingapp.feature.home.R
 import org.example.travelingapp.ui.theme.Dimens
-import org.example.travelingapp.ui.views.components.AppText
-import org.example.travelingapp.ui.views.components.VerticalSpacer
+import org.example.travelingapp.ui.views.components.TravelText
+import org.example.travelingapp.ui.views.components.TravelVerticalSpacer
 
 @Composable
 fun ThreeTab() {
@@ -32,13 +32,13 @@ fun ThreeTab() {
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = Dimens.spacingMd)
         )
-        AppText(
+        TravelText(
             text = stringResource(R.string.coming_soon),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-        VerticalSpacer(Dimens.spacingSm)
-        AppText(
+        TravelVerticalSpacer(Dimens.spacingSm)
+        TravelText(
             text = stringResource(R.string.coming_soon_description),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.outline

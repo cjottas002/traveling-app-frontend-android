@@ -31,7 +31,7 @@ import org.example.travelingapp.ui.theme.TravelingAppTheme
 import org.example.travelingapp.core.ui.R as CoreR
 
 @Composable
-fun AppTextField(
+fun TravelTextField(
     value: String,
     onValueChange: (String) -> Unit,
     @StringRes labelRes: Int,
@@ -114,12 +114,12 @@ fun AppTextField(
 
 @Preview(showBackground = true, name = "Text fields")
 @Composable
-private fun AppTextFieldPreview() {
+private fun TravelTextFieldPreview() {
     TravelingAppTheme {
         var user by remember { mutableStateOf("") }
         var pass by remember { mutableStateOf("Admin123!") }
         Column(modifier = Modifier.padding(Dimens.screenPadding)) {
-            AppTextField(
+            TravelTextField(
                 value = user,
                 onValueChange = { user = it },
                 labelRes = android.R.string.search_go
@@ -127,7 +127,7 @@ private fun AppTextFieldPreview() {
             androidx.compose.foundation.layout.Spacer(
                 Modifier.padding(Dimens.spacingSm)
             )
-            AppTextField(
+            TravelTextField(
                 value = pass,
                 onValueChange = { pass = it },
                 labelRes = android.R.string.unknownName,

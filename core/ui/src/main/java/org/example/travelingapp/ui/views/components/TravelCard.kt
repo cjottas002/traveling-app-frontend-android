@@ -78,9 +78,9 @@ fun TravelCard(
 private fun TravelCardSurfacePreview() {
     TravelingAppTheme {
         TravelCard(modifier = Modifier.padding(Dimens.screenPadding)) {
-            AppText(text = "Surface card")
-            VerticalSpacer(Dimens.cardSpacing)
-            AppText(text = "Default card for content over a plain background.")
+            TravelText(text = "Surface card")
+            TravelVerticalSpacer(Dimens.cardSpacing)
+            TravelText(text = "Default card for content over a plain background.")
         }
     }
 }
@@ -93,9 +93,9 @@ private fun TravelCardTranslucentPreview() {
             style = TravelCardStyle.Translucent,
             modifier = Modifier.padding(Dimens.screenPadding)
         ) {
-            AppText(text = "Translucent card")
-            VerticalSpacer(Dimens.cardSpacing)
-            AppText(text = "Sits on top of hero images.")
+            TravelText(text = "Translucent card")
+            TravelVerticalSpacer(Dimens.cardSpacing)
+            TravelText(text = "Sits on top of hero images.")
         }
     }
 }
@@ -108,9 +108,9 @@ private fun TravelCardElevatedPreview() {
             style = TravelCardStyle.Elevated,
             modifier = Modifier.padding(Dimens.screenPadding)
         ) {
-            AppText(text = "Elevated card")
-            VerticalSpacer(Dimens.cardSpacing)
-            AppText(text = "For floating cards in lists.")
+            TravelText(text = "Elevated card")
+            TravelVerticalSpacer(Dimens.cardSpacing)
+            TravelText(text = "For floating cards in lists.")
         }
     }
 }

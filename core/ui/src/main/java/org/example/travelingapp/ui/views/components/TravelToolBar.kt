@@ -20,7 +20,7 @@ import org.example.travelingapp.core.ui.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppToolBar(
+fun TravelToolBar(
     showBack: Boolean = false,
     @StringRes titleRes: Int = 0,
     navController: NavController,

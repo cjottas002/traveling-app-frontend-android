@@ -22,7 +22,7 @@ import org.example.travelingapp.ui.theme.Dimens
 import org.example.travelingapp.ui.theme.TravelingAppTheme
 
 @Composable
-fun PagerIndicator(
+fun TravelPagerIndicator(
     size: Int,
     currentPage: Int,
     modifier: Modifier = Modifier,
@@ -71,15 +71,15 @@ private fun Indicator(
 
 @Preview(showBackground = true, name = "Pager indicator")
 @Composable
-private fun PagerIndicatorPreview() {
+private fun TravelPagerIndicatorPreview() {
     TravelingAppTheme {
         androidx.compose.foundation.layout.Column(
             verticalArrangement = Arrangement.spacedBy(Dimens.spacingMd),
             modifier = Modifier.padding(Dimens.screenPadding)
         ) {
-            PagerIndicator(size = 3, currentPage = 0)
-            PagerIndicator(size = 3, currentPage = 1)
-            PagerIndicator(size = 3, currentPage = 2)
+            TravelPagerIndicator(size = 3, currentPage = 0)
+            TravelPagerIndicator(size = 3, currentPage = 1)
+            TravelPagerIndicator(size = 3, currentPage = 2)
         }
     }
 }

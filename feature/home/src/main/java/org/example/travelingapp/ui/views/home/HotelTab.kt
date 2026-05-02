@@ -11,9 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -29,8 +26,11 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import org.example.travelingapp.domain.entities.hotelmodel.Hotel
 import org.example.travelingapp.ui.theme.Dimens
-import org.example.travelingapp.ui.views.components.AppText
-import org.example.travelingapp.ui.views.components.VerticalSpacer
+import org.example.travelingapp.ui.views.components.TravelCard
+import org.example.travelingapp.ui.views.components.TravelCardStyle
+import org.example.travelingapp.ui.views.components.TravelLoader
+import org.example.travelingapp.ui.views.components.TravelText
+import org.example.travelingapp.ui.views.components.TravelVerticalSpacer
 import org.example.travelingapp.ui.views.home.viewmodels.HotelViewModel
 
 @Composable
@@ -57,61 +57,52 @@ fun HotelTab(hotelViewModel: HotelViewModel = hiltViewModel()) {
 
 @Composable
 fun HotelItem(hotel: Hotel, onClick: () -> Unit) {
-    Card(
+    TravelCard(
         modifier = Modifier
-            .fillMaxWidth()
             .padding(vertical = Dimens.spacingSm)
             .clickable(onClick = onClick),
-        shape = RoundedCornerShape(Dimens.radiusLg),
-        elevation = CardDefaults.cardElevation(Dimens.elevationMd),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        )
+        style = TravelCardStyle.Elevated,
+        contentPadding = Dimens.spacingMd
     ) {
-        Column(modifier = Modifier.padding(Dimens.spacingMd)) {
-            val context = LocalContext.current
-            SubcomposeAsyncImage(
-                model = ImageRequest.Builder(context)
-                    .data(hotel.optimizedThumbUrls.srpDesktop)
-                    .crossfade(300)
-                    .build(),
-                contentDescription = hotel.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(Dimens.cardImageHeight)
-                    .clip(RoundedCornerShape(Dimens.radiusMd)),
-                loading = {
-                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                        CircularProgressIndicator(
-                            color = MaterialTheme.colorScheme.primary,
-                            strokeWidth = Dimens.spacingXs
-                        )
-                    }
+        val context = LocalContext.current
+        SubcomposeAsyncImage(
+            model = ImageRequest.Builder(context)
+                .data(hotel.optimizedThumbUrls.srpDesktop)
+                .crossfade(300)
+                .build(),
+            contentDescription = hotel.name,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(Dimens.cardImageHeight)
+                .clip(RoundedCornerShape(Dimens.radiusMd)),
+            loading = {
+                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                    TravelLoader()
                 }
-            )
-            VerticalSpacer(Dimens.spacingSm)
-            AppText(
-                text = hotel.address.streetAddress,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = Bold
-            )
-            AppText(
-                text = hotel.address.locality,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            AppText(
-                text = "${hotel.ratePlan.price.current} €",
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = Bold
-            )
-            AppText(
-                text = hotel.guestReviews.rating,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
+            }
+        )
+        TravelVerticalSpacer(Dimens.spacingSm)
+        TravelText(
+            text = hotel.address.streetAddress,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = Bold
+        )
+        TravelText(
+            text = hotel.address.locality,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        TravelText(
+            text = "${hotel.ratePlan.price.current} €",
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = Bold
+        )
+        TravelText(
+            text = hotel.guestReviews.rating,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
