@@ -1,25 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="beach_vacation">Beach vacation</string>
-    <string name="upcoming_meetups">Upcoming meetups</string>
-    <string name="eurodisney">Eurodisney</string>
-    <string name="rent_a_car">Rent a car</string>
-    <string name="usa_los_angeles">USA, Los Angeles – 2 Weeks</string>
-    <string name="city_of_los_angeles">City of Los Angeles</string>
-    <string name="maldives_3_weeks">Maldives – 3 Weeks</string>
+    <!-- Bottom navigation tabs -->
     <string name="tab_explore">Explore</string>
-    <string name="tab_transport">Transport</string>
+    <string name="tab_transport">Move</string>
     <string name="tab_hotels">Hotels</string>
-    <string name="tab_profile">Profile</string>
-    <string name="coming_soon">Coming soon</string>
-    <string name="coming_soon_description">This section is under development</string>
+    <string name="tab_profile">Me</string>
+
+    <!-- Home / Explore tab -->
+    <string name="greeting_morning">Good morning</string>
+    <string name="greeting_afternoon">Good afternoon</string>
+    <string name="greeting_evening">Good evening</string>
+    <string name="greeting_default">Hello</string>
+    <string name="home_kicker">This week</string>
+    <string name="home_title">Picked</string>
+    <string name="home_title_accent">for you.</string>
+    <string name="home_section_nearby">Near you</string>
+    <string name="home_view_all">View all →</string>
+    <string name="no_destinations">No destinations yet.</string>
+
+    <!-- Hotel tab -->
+    <string name="hotels_kicker">Stay</string>
+    <string name="hotels_title">Where you</string>
+    <string name="hotels_title_accent">rest.</string>
+    <string name="hotels_per_night">/ night</string>
+
+    <!-- Transport tab -->
+    <string name="transport_kicker">Move</string>
+    <string name="transport_title">How you</string>
+    <string name="transport_title_accent">arrive.</string>
+
+    <!-- Profile placeholder + RentCar placeholder -->
+    <string name="empty_glyph">Aa</string>
+    <string name="profile_empty_title">We\'re still</string>
+    <string name="profile_empty_accent">building this.</string>
+    <string name="profile_empty_body">The profile section will be available this spring. We\'ll let you know.</string>
+    <string name="empty_badge_soon">Coming soon</string>
+    <string name="rent_a_car">Car rental</string>
+    <string name="rentcar_empty_title">We\'re still</string>
+    <string name="rentcar_empty_accent">building this.</string>
+    <string name="rentcar_empty_body">The rental module will be available this spring. We\'ll let you know.</string>
+
+    <!-- Destination CRUD -->
     <string name="create_destination">Create destination</string>
     <string name="destination_name">Name</string>
     <string name="destination_description">Description</string>
     <string name="destination_country">Country</string>
     <string name="destination_category">Category</string>
     <string name="destination_image_url">Image URL (optional)</string>
-    <string name="no_destinations">No destinations yet</string>
     <string name="destination_detail">Destination</string>
     <string name="edit_destination">Edit</string>
     <string name="delete_destination">Delete</string>

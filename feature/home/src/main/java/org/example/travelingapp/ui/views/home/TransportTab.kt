@@ -1,32 +1,40 @@
 package org.example.travelingapp.ui.views.home
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import org.example.travelingapp.domain.entities.Transport
 import org.example.travelingapp.feature.home.R
 import org.example.travelingapp.ui.theme.Dimens
-import org.example.travelingapp.ui.views.components.TravelCard
-import org.example.travelingapp.ui.views.components.TravelCardStyle
-import org.example.travelingapp.ui.views.components.TravelImage
-import org.example.travelingapp.ui.views.components.TravelText
+import org.example.travelingapp.ui.theme.TravelMonoFamily
+import org.example.travelingapp.ui.views.components.TravelEditorialBlock
 import org.example.travelingapp.ui.views.components.TravelVerticalSpacer
 import org.example.travelingapp.ui.views.home.viewmodels.TransportViewModel
 
@@ -38,60 +46,64 @@ fun TransportTab(transportViewModel: TransportViewModel = hiltViewModel()) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = Dimens.spacingMd)
+            .padding(horizontal = Dimens.screenPadding)
     ) {
         item {
             TravelVerticalSpacer(Dimens.spacingMd)
-            TravelText(
-                text = stringResource(R.string.tab_transport),
-                style = MaterialTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.onBackground
+            TravelEditorialBlock(
+                kicker = stringResource(R.string.transport_kicker),
+                title = stringResource(R.string.transport_title),
+                accent = stringResource(R.string.transport_title_accent)
             )
             TravelVerticalSpacer(Dimens.spacingLg)
         }
 
         items(transports) { transport ->
-            TransportItem(transport = transport) {
+            TransportRow(transport = transport) {
                 Toast.makeText(context, transport.name, Toast.LENGTH_SHORT).show()
             }
         }
+
+        item { TravelVerticalSpacer(Dimens.screenBottomPadding) }
     }
 }
 
+/** Dense editorial transport row: 44dp bone icon · title · meta mono · ember mono price right. */
 @Composable
-fun TransportItem(transport: Transport, onClick: () -> Unit) {
-    TravelCard(
+private fun TransportRow(transport: Transport, onClick: () -> Unit) {
+    Row(
         modifier = Modifier
-            .padding(bottom = Dimens.spacingSm)
-            .clickable(onClick = onClick),
-        style = TravelCardStyle.Elevated,
-        contentPadding = Dimens.spacingMd
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = Dimens.spacingMd),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+        Box(
+            modifier = Modifier
+                .size(44.dp)
+                .clip(RoundedCornerShape(Dimens.radiusXs))
+                .background(MaterialTheme.colorScheme.surface),
+            contentAlignment = Alignment.Center
         ) {
-            Column(modifier = Modifier.weight(1f)) {
-                TravelText(
-                    text = transport.name,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                TravelVerticalSpacer(Dimens.spacingXs)
-                TravelText(
-                    text = transport.price,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
-            TravelImage(
-                resId = transport.imageRes,
+            androidx.compose.foundation.Image(
+                painter = painterResource(id = transport.imageRes),
                 contentDescription = null,
-                modifier = Modifier
-                    .height(Dimens.avatarMd)
-                    .padding(start = Dimens.spacingSm)
+                modifier = Modifier.size(28.dp),
+                contentScale = ContentScale.Fit
             )
         }
+        Spacer(Modifier.size(Dimens.spacingMd))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = transport.name,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        }
+        Text(
+            text = transport.price,
+            style = MaterialTheme.typography.titleMedium.copy(fontFamily = TravelMonoFamily),
+            color = MaterialTheme.colorScheme.secondary
+        )
     }
 }

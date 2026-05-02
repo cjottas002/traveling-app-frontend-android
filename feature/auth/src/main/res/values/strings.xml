@@ -7,7 +7,7 @@
     <string name="login_subtitle">Pick up where you left off. Your bookings, in sync.</string>
     <string name="login_action">Sign in</string>
 
-    <!-- Login · existing keys (preserved) -->
+    <!-- Login · core states + links -->
     <string name="login">Log in</string>
     <string name="login_failed">Login failed</string>
     <string name="login_offline_not_available">No internet connection. Offline login is not available yet.</string>
@@ -28,20 +28,13 @@
     <string name="register_action">Create account</string>
     <string name="register_step_meta">Step 1 of 1 · Account</string>
 
-    <!-- Register · existing keys (preserved) -->
-    <string name="register_text">Create account</string>
-    <string name="sign_me_up">Sign up</string>
+    <!-- Register · core states + links -->
     <string name="already_have_account">Already have an account? <b>Log in</b></string>
     <string name="privacy_policy">By signing up you agree to our <b>Terms</b> and <b>Privacy Policy</b></string>
     <string name="register_error_empty_fields">Please fill in all fields</string>
-    <string name="register_error_not_adult">You must be an adult</string>
-    <string name="register_error_invalid_name">Name contains invalid characters</string>
-    <string name="register_error_invalid_lastname">Last name contains invalid characters</string>
     <string name="register_error_passwords_dont_match">Passwords don\'t match</string>
     <string name="accept_terms">I accept the terms of service and privacy policy.</string>
 
     <!-- Misc -->
     <string name="itd_available_soon">This feature will be implemented soon</string>
-    <string name="camera_permission_denied">Camera permission denied</string>
-    <string name="content_description_take_photo">Take photo</string>
 </resources>

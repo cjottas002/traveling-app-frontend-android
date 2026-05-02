@@ -28,9 +28,19 @@ class DestinationViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(true)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
+    private val _username = MutableStateFlow<String?>(null)
+    val username: StateFlow<String?> = _username.asStateFlow()
+
     init {
         observeLocalData()
+        observeUsername()
         syncFromBackend()
+    }
+
+    private fun observeUsername() {
+        viewModelScope.launch {
+            tokenManager.usernameFlow.collect { _username.value = it }
+        }
     }
 
     private fun observeLocalData() {

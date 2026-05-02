@@ -31,6 +31,9 @@ class TokenManager @Inject constructor(
     val roleFlow: Flow<String?> = context.authDataStore.data
         .map { prefs -> prefs[KEY_USER_ROLE] }
 
+    val usernameFlow: Flow<String?> = context.authDataStore.data
+        .map { prefs -> prefs[KEY_USERNAME] }
+
     suspend fun saveToken(token: String) {
         context.authDataStore.edit { prefs ->
             prefs[KEY_AUTH_TOKEN] = token

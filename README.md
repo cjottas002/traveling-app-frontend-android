@@ -2,8 +2,6 @@
 
 Aplicacion nativa Android para la gestion de viajes: busqueda y reserva de hoteles, alquiler de coches, gestion de transportes y catalogo de destinos. Soporta sesion con roles (cliente / negocio) y modo offline con sincronizacion en background.
 
-Forma parte del ecosistema **TravelingApp** junto al backend en .NET y al cliente web en Angular, todos consumiendo la misma API REST.
-
 ## Stack tecnologico
 
 | Tecnologia | Version | Uso |
@@ -17,7 +15,7 @@ Forma parte del ecosistema **TravelingApp** junto al backend en .NET y al client
 | KSP | 2.3.2 | Procesador de anotaciones (Hilt, Room) |
 | Room | 2.8.4 | Cache offline y outbox de operaciones pendientes |
 | WorkManager | 2.10.1 | Sincronizacion offline -> online en background |
-| Retrofit | 3.0.0 | Cliente HTTP contra el backend .NET y mocks |
+| Retrofit | 3.0.0 | Cliente HTTP contra la API y mocks |
 | Gson Converter | 3.0.0 | Serializacion JSON para Retrofit |
 | OkHttp MockWebServer | 4.12.0 | Tests de capa de red |
 | DataStore Preferences | 1.2.0 | Estado de onboarding y token de sesion |
@@ -98,16 +96,16 @@ El proyecto implementa un **Outbox Pattern** para garantizar que las operaciones
 1. La capa `data/repository/*` escribe primero en la base de datos local (Room).
 2. Si no hay red, la operacion se persiste como `PendingOperationEntity` en la cola de outbox.
 3. `SyncManager` programa un `SyncWorker` (WorkManager) con restriccion de red.
-4. Cuando vuelve la conectividad, el worker drena la outbox contra el backend y reconcilia estados.
+4. Cuando vuelve la conectividad, el worker drena la outbox contra la API y reconcilia estados.
 
-`INetworkChecker` (implementado por `AndroidNetworkChecker`) decide si una llamada va directa al servidor o pasa por la cola.
+`INetworkChecker` (implementado por `AndroidNetworkChecker`) decide si una llamada va directa a la API o pasa por la cola.
 
 ## Autenticacion y roles
 
-- Login y registro contra el backend .NET via `IAccountService`.
+- Login y registro contra la API via `IAccountService`.
 - Token persistido en DataStore (`TokenManager`).
 - Roles soportados: **cliente** y **negocio**, lo que condiciona la navegacion y las acciones disponibles tras login.
-- Hash de password con `PasswordHasher` (`core/common/security`) antes de enviar al servidor.
+- Hash de password con `PasswordHasher` (`core/common/security`) antes de enviar.
 
 ## Navegacion
 
@@ -149,7 +147,7 @@ Estructura de tests siempre con patron **AAA** (Arrange / Act / Assert) en bloqu
 - JDK **11**.
 - Android SDK **36** instalado.
 - Dispositivo fisico o emulador con **API 29+** (Android 10).
-- Backend `.NET` corriendo y accesible. La URL por defecto esta configurada en `app/.../core/di/AppModule.kt` (`BASE_URL_BACKEND`). Cambiala segun tu entorno antes de compilar.
+- API accesible. La URL por defecto esta configurada en `app/.../core/di/AppModule.kt` (`BASE_URL_BACKEND`). Cambiala segun tu entorno antes de compilar.
 
 ## Compilar y ejecutar
 
@@ -185,13 +183,6 @@ Cada modulo `:feature:*` y `:core:ui` tiene sus propios `strings.xml` traducidos
 - `CAMERA` — captura de imagenes (perfil, comprobantes).
 - `ACCESS_COARSE_LOCATION`, `ACCESS_FINE_LOCATION` — ubicacion para destinos cercanos.
 - `WRITE_EXTERNAL_STORAGE` — solo hasta API 28 (declarado con `maxSdkVersion`).
-
-## Ecosistema TravelingApp
-
-Esta app es el cliente Android del ecosistema. Comparte backend con:
-
-- **Backend (.NET):** `traveling-app-backend`
-- **Web (Angular):** `traveling-app-frontend-web`
 
 ## Autor
 
