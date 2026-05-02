@@ -26,11 +26,11 @@ fun TravelPagerIndicator(
     size: Int,
     currentPage: Int,
     modifier: Modifier = Modifier,
-    activeColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.primary,
+    activeColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.secondary,
     inactiveColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.outlineVariant
 ) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(Dimens.spacingSm),
+        horizontalArrangement = Arrangement.spacedBy(Dimens.spacingXs),
         modifier = modifier
     ) {
         repeat(size) {
@@ -46,25 +46,24 @@ fun TravelPagerIndicator(
 @Composable
 private fun Indicator(
     isSelected: Boolean,
-    activeColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.primary,
+    activeColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.secondary,
     inactiveColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.outlineVariant
 ) {
     val width by animateDpAsState(
-        targetValue = if (isSelected) 28.dp else 10.dp,
-        animationSpec = tween(300),
+        targetValue = if (isSelected) 32.dp else 16.dp,
+        animationSpec = tween(220),
         label = "indicator_width"
     )
     val color by animateColorAsState(
         targetValue = if (isSelected) activeColor else inactiveColor,
-        animationSpec = tween(300),
+        animationSpec = tween(220),
         label = "indicator_color"
     )
 
     Box(
         modifier = Modifier
-            .height(10.dp)
+            .height(3.dp)
             .width(width)
-            .clip(CircleShape)
             .background(color)
     )
 }

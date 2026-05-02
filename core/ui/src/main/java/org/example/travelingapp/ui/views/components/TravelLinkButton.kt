@@ -30,7 +30,7 @@ fun TravelLinkButton(
     @StringRes textRes: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.onBackground,
+    color: Color = MaterialTheme.colorScheme.secondary,
     textAlign: TextAlign = TextAlign.Center
 ) {
     TravelText(

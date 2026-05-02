@@ -1,23 +1,40 @@
 package org.example.travelingapp.ui.views.components
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import org.example.travelingapp.ui.theme.Dimens
+import org.example.travelingapp.ui.theme.Easings
+import org.example.travelingapp.ui.theme.Motion
 import org.example.travelingapp.ui.theme.TravelingAppTheme
 
+/**
+ * Primary editorial CTA. Solid Ink fill, 4 dp radius (no pastilla), label in
+ * mono uppercase. Press triggers a 0.96 scale micro-interaction (Meridian
+ * signature).
+ */
 @Composable
 fun TravelPrimaryButton(
     @StringRes textRes: Int,
@@ -25,18 +42,27 @@ fun TravelPrimaryButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.96f else 1f,
+        animationSpec = tween(durationMillis = Motion.short, easing = Easings.standard),
+        label = "primary_press_scale"
+    )
     Button(
         onClick = onClick,
         enabled = enabled,
+        interactionSource = interactionSource,
         modifier = modifier
             .fillMaxWidth()
-            .height(Dimens.buttonHeight),
-        shape = RoundedCornerShape(Dimens.radiusMd),
+            .height(Dimens.buttonHeight)
+            .scale(scale),
+        shape = RoundedCornerShape(Dimens.radiusXs),
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.secondary,
-            contentColor = MaterialTheme.colorScheme.onSecondary,
-            disabledContainerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.4f),
-            disabledContentColor = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.4f)
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
+            disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.4f),
+            disabledContentColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.4f)
         )
     ) {
         Text(
@@ -46,6 +72,7 @@ fun TravelPrimaryButton(
     }
 }
 
+/** Outlined CTA with 1.5 dp ink hairline. Used as cancel/secondary action. */
 @Composable
 fun TravelSecondaryButton(
     @StringRes textRes: Int,
@@ -53,17 +80,27 @@ fun TravelSecondaryButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.96f else 1f,
+        animationSpec = tween(durationMillis = Motion.short, easing = Easings.standard),
+        label = "secondary_press_scale"
+    )
     OutlinedButton(
         onClick = onClick,
         enabled = enabled,
+        interactionSource = interactionSource,
         modifier = modifier
             .fillMaxWidth()
-            .height(Dimens.buttonHeight),
-        shape = RoundedCornerShape(Dimens.radiusMd),
+            .height(Dimens.buttonHeight)
+            .scale(scale),
+        shape = RoundedCornerShape(Dimens.radiusXs),
+        border = BorderStroke(width = 1.5.dp, color = MaterialTheme.colorScheme.primary),
         colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = MaterialTheme.colorScheme.surface,
+            containerColor = MaterialTheme.colorScheme.background,
             contentColor = MaterialTheme.colorScheme.primary,
-            disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+            disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
         )
     ) {
         Text(
@@ -73,6 +110,7 @@ fun TravelSecondaryButton(
     }
 }
 
+/** Inline text button with ember accent — used for "no", "skip", inline links inside dialogs. */
 @Composable
 fun TravelTextButton(
     @StringRes textRes: Int,
@@ -99,7 +137,7 @@ fun TravelTextButton(
         Text(
             text = text,
             style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.secondary
         )
     }
 }
@@ -110,17 +148,11 @@ private fun ButtonsPreview() {
     TravelingAppTheme {
         Column(modifier = Modifier.padding(Dimens.screenPadding)) {
             TravelPrimaryButton(textRes = android.R.string.ok, onClick = {})
-            androidx.compose.foundation.layout.Spacer(
-                Modifier.padding(Dimens.spacingSm)
-            )
+            Spacer(Modifier.padding(Dimens.spacingSm))
             TravelPrimaryButton(textRes = android.R.string.ok, onClick = {}, enabled = false)
-            androidx.compose.foundation.layout.Spacer(
-                Modifier.padding(Dimens.spacingSm)
-            )
+            Spacer(Modifier.padding(Dimens.spacingSm))
             TravelSecondaryButton(textRes = android.R.string.cancel, onClick = {})
-            androidx.compose.foundation.layout.Spacer(
-                Modifier.padding(Dimens.spacingSm)
-            )
+            Spacer(Modifier.padding(Dimens.spacingSm))
             TravelTextButton(textRes = android.R.string.ok, onClick = {})
         }
     }

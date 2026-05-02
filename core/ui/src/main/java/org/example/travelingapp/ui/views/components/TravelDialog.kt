@@ -1,10 +1,22 @@
 package org.example.travelingapp.ui.views.components
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import org.example.travelingapp.ui.theme.Dimens
 
+/**
+ * Confirmation dialog. Title in display headline, body in bodyMedium, confirm
+ * button in ember (TravelTextButton) and dismiss in ink (TravelTextButton with
+ * `onSurfaceVariant` color).
+ *
+ * Note: the Meridian doc proposes a bottom-sheet variant for richer dialogs,
+ * but for simple confirm/cancel flows AlertDialog is the right primitive.
+ * Will introduce a `TravelSheetDialog` later if a screen needs it.
+ */
 @Composable
 fun TravelDialog(
     onDismissRequest: () -> Unit,
@@ -17,16 +29,20 @@ fun TravelDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
+        shape = RoundedCornerShape(Dimens.radiusMd),
+        containerColor = MaterialTheme.colorScheme.surface,
+        tonalElevation = AlertDialogDefaults.TonalElevation,
         title = {
             TravelText(
                 textRes = titleRes,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.headlineSmall
             )
         },
         text = {
             TravelText(
                 textRes = textRes,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         },
         confirmButton = {

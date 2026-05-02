@@ -3,14 +3,17 @@ package org.example.travelingapp.ui.views.components
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,14 +25,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.tooling.preview.Preview
+import org.example.travelingapp.core.ui.R as CoreR
 import org.example.travelingapp.ui.theme.Dimens
 import org.example.travelingapp.ui.theme.TravelingAppTheme
-import org.example.travelingapp.core.ui.R as CoreR
 
+/**
+ * Underline-only text field. Container is transparent, the only chrome is the
+ * indicator line (1 dp ink unfocused → 2 dp ember focused). Label uses
+ * `labelMedium` (mono uppercase, wide tracking) to act as the meta-layer.
+ */
 @Composable
 fun TravelTextField(
     value: String,
@@ -74,7 +79,7 @@ fun TravelTextField(
         else -> null
     }
 
-    OutlinedTextField(
+    TextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier.fillMaxWidth(),
@@ -83,13 +88,13 @@ fun TravelTextField(
         label = {
             Text(
                 text = stringResource(labelRes),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.labelMedium
             )
         },
         textStyle = MaterialTheme.typography.bodyLarge,
         visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        shape = RoundedCornerShape(Dimens.radiusMd),
+        shape = RectangleShape,
         leadingIcon = leadingIconRes?.let { iconRes ->
             {
                 Icon(
@@ -100,14 +105,17 @@ fun TravelTextField(
             }
         },
         trailingIcon = trailing,
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = MaterialTheme.colorScheme.primary,
-            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
-            focusedContainerColor = MaterialTheme.colorScheme.surface,
-            unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-            focusedLabelColor = MaterialTheme.colorScheme.primary,
-            unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            cursorColor = MaterialTheme.colorScheme.primary
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor   = androidx.compose.ui.graphics.Color.Transparent,
+            unfocusedContainerColor = androidx.compose.ui.graphics.Color.Transparent,
+            disabledContainerColor  = androidx.compose.ui.graphics.Color.Transparent,
+            errorContainerColor     = androidx.compose.ui.graphics.Color.Transparent,
+            focusedIndicatorColor   = MaterialTheme.colorScheme.secondary,
+            unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
+            disabledIndicatorColor  = MaterialTheme.colorScheme.outlineVariant,
+            focusedLabelColor       = MaterialTheme.colorScheme.secondary,
+            unfocusedLabelColor     = MaterialTheme.colorScheme.onSurfaceVariant,
+            cursorColor             = MaterialTheme.colorScheme.secondary
         )
     )
 }
@@ -124,9 +132,7 @@ private fun TravelTextFieldPreview() {
                 onValueChange = { user = it },
                 labelRes = android.R.string.search_go
             )
-            androidx.compose.foundation.layout.Spacer(
-                Modifier.padding(Dimens.spacingSm)
-            )
+            Spacer(Modifier.padding(Dimens.spacingSm))
             TravelTextField(
                 value = pass,
                 onValueChange = { pass = it },
