@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Login · editorial -->
+    <string name="login_kicker">Acceder</string>
+    <string name="login_title">Bienvenido</string>
+    <string name="login_title_accent">de vuelta.</string>
+    <string name="login_subtitle">Continúa donde lo dejaste. Tus reservas, sincronizadas.</string>
+    <string name="login_action">Entrar</string>
+
+    <!-- Login · existing keys (preserved) -->
     <string name="login">Iniciar sesión</string>
     <string name="login_failed">Error al iniciar sesión</string>
     <string name="login_offline_not_available">Sin conexión a internet. El inicio de sesión sin conexión no está disponible aún.</string>
     <string name="forgot_password">¿Olvidaste tu contraseña? <b>Recuperar</b></string>
     <string name="create_account_text">¿No tienes cuenta? <b>Regístrate</b></string>
+
+    <!-- Form fields -->
     <string name="username">Nombre de usuario</string>
     <string name="password">Contraseña</string>
     <string name="confirm_password">Confirmar contraseña</string>
     <string name="passwords_dont_match">Las contraseñas no coinciden</string>
-    <string name="itd_available_soon">Esta funcionalidad estará disponible pronto</string>
-    <string name="camera_permission_denied">Permiso de cámara denegado</string>
+
+    <!-- Register · editorial -->
+    <string name="register_kicker">Crear cuenta</string>
+    <string name="register_title">Empecemos por</string>
+    <string name="register_title_accent">tu nombre.</string>
+    <string name="register_subtitle">Te tomará menos de un minuto.</string>
+    <string name="register_action">Crear cuenta</string>
+    <string name="register_step_meta">Paso 1 de 1 · Cuenta</string>
+
+    <!-- Register · existing keys (preserved) -->
     <string name="register_text">Crear cuenta</string>
-    <string name="register_subtitle">Únete a miles de viajeros por todo el mundo</string>
     <string name="sign_me_up">Registrarme</string>
     <string name="already_have_account">¿Ya tienes cuenta? <b>Inicia sesión</b></string>
     <string name="privacy_policy">Al registrarte aceptas nuestros <b>Términos</b> y <b>Política de privacidad</b></string>
@@ -21,6 +38,10 @@
     <string name="register_error_invalid_name">El nombre contiene caracteres no válidos</string>
     <string name="register_error_invalid_lastname">El apellido contiene caracteres no válidos</string>
     <string name="register_error_passwords_dont_match">Las contraseñas no coinciden</string>
+    <string name="accept_terms">Acepto los términos del servicio y la política de privacidad.</string>
+
+    <!-- Misc -->
+    <string name="itd_available_soon">Esta funcionalidad estará disponible pronto</string>
+    <string name="camera_permission_denied">Permiso de cámara denegado</string>
     <string name="content_description_take_photo">Tomar foto</string>
-    <string name="accept_terms">Soy mayor de 18 y acepto los términos</string>
 </resources>

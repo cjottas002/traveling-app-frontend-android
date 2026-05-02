@@ -6,17 +6,23 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -48,7 +54,8 @@ fun TravelPrimaryButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    tone: ButtonTone = ButtonTone.Ink
+    tone: ButtonTone = ButtonTone.Ink,
+    trailingArrow: Boolean = false
 ) {
     val container = when (tone) {
         ButtonTone.Ink -> MaterialTheme.colorScheme.primary
@@ -81,10 +88,22 @@ fun TravelPrimaryButton(
             disabledContentColor = content.copy(alpha = 0.4f)
         )
     ) {
-        Text(
-            text = stringResource(textRes),
-            style = MaterialTheme.typography.labelLarge
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(Dimens.spacingSm)
+        ) {
+            Text(
+                text = stringResource(textRes),
+                style = MaterialTheme.typography.labelLarge
+            )
+            if (trailingArrow) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                    contentDescription = null,
+                    modifier = Modifier.height(Dimens.iconSm)
+                )
+            }
+        }
     }
 }
 

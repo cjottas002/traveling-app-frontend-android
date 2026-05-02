@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Login · editorial -->
+    <string name="login_kicker">Sign in</string>
+    <string name="login_title">Welcome</string>
+    <string name="login_title_accent">back.</string>
+    <string name="login_subtitle">Pick up where you left off. Your bookings, in sync.</string>
+    <string name="login_action">Sign in</string>
+
+    <!-- Login · existing keys (preserved) -->
     <string name="login">Log in</string>
     <string name="login_failed">Login failed</string>
     <string name="login_offline_not_available">No internet connection. Offline login is not available yet.</string>
     <string name="forgot_password">Forgot password? <b>Get new</b></string>
     <string name="create_account_text">Don\'t have an account? <b>Sign up</b></string>
+
+    <!-- Form fields -->
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm password</string>
     <string name="passwords_dont_match">Passwords don\'t match</string>
-    <string name="itd_available_soon">This feature will be implemented soon</string>
-    <string name="camera_permission_denied">Camera permission denied</string>
+
+    <!-- Register · editorial -->
+    <string name="register_kicker">Create account</string>
+    <string name="register_title">Let\'s start with</string>
+    <string name="register_title_accent">your name.</string>
+    <string name="register_subtitle">It will take less than a minute.</string>
+    <string name="register_action">Create account</string>
+    <string name="register_step_meta">Step 1 of 1 · Account</string>
+
+    <!-- Register · existing keys (preserved) -->
     <string name="register_text">Create account</string>
-    <string name="register_subtitle">Join thousands of travelers around the world</string>
     <string name="sign_me_up">Sign up</string>
     <string name="already_have_account">Already have an account? <b>Log in</b></string>
     <string name="privacy_policy">By signing up you agree to our <b>Terms</b> and <b>Privacy Policy</b></string>
@@ -21,6 +38,10 @@
     <string name="register_error_invalid_name">Name contains invalid characters</string>
     <string name="register_error_invalid_lastname">Last name contains invalid characters</string>
     <string name="register_error_passwords_dont_match">Passwords don\'t match</string>
+    <string name="accept_terms">I accept the terms of service and privacy policy.</string>
+
+    <!-- Misc -->
+    <string name="itd_available_soon">This feature will be implemented soon</string>
+    <string name="camera_permission_denied">Camera permission denied</string>
     <string name="content_description_take_photo">Take photo</string>
-    <string name="accept_terms">I\'m over 18 and accept the terms</string>
 </resources>

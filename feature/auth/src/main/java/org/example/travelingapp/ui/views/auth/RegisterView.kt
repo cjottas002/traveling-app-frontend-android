@@ -1,51 +1,51 @@
 package org.example.travelingapp.ui.views.auth
 
-import android.content.Context
-import android.content.Intent
 import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.core.net.toUri
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import org.example.travelingapp.feature.auth.R
 import org.example.travelingapp.ui.testtags.AuthTestTags
 import org.example.travelingapp.ui.theme.Dimens
 import org.example.travelingapp.ui.views.auth.viewmodel.AuthViewModel
-import org.example.travelingapp.ui.views.components.TravelCard
-import org.example.travelingapp.ui.views.components.TravelCardStyle
 import org.example.travelingapp.ui.views.components.TravelCheckbox
 import org.example.travelingapp.ui.views.components.TravelIconButton
 import org.example.travelingapp.ui.views.components.TravelPrimaryButton
-import org.example.travelingapp.ui.views.components.TravelText
 import org.example.travelingapp.ui.views.components.TravelTextField
 import org.example.travelingapp.ui.views.components.TravelVerticalSpacer
 
@@ -60,186 +60,198 @@ fun RegisterView(navController: NavController, onNavigateToLogin: () -> Unit) {
     val passwordsMatch by authViewModel.passwordsMatch.collectAsState()
     val context = LocalContext.current
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .statusBarsPadding()
+            .navigationBarsPadding()
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = Dimens.screenPadding)
             .testTag(AuthTestTags.REGISTER_SCREEN)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.login_nomads_city_tour),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
+        Header(onBackClicked = { navController.popBackStack() })
+
+        Spacer(Modifier.padding(top = Dimens.spacingXl))
+
+        EditorialBlock()
+
+        Spacer(Modifier.padding(top = Dimens.sectionSpacing))
+
+        TravelTextField(
+            value = username,
+            onValueChange = { authViewModel.onUsernameChanged(it) },
+            labelRes = R.string.username,
+            modifier = Modifier.testTag(AuthTestTags.REGISTER_NAME_FIELD)
         )
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Black.copy(alpha = 0.3f),
-                            Color.Black.copy(alpha = 0.85f)
-                        )
-                    )
-                )
+        TravelVerticalSpacer(Dimens.spacingMd)
+
+        TravelTextField(
+            value = password,
+            onValueChange = { authViewModel.onPasswordChanged(it) },
+            labelRes = R.string.password,
+            isPassword = true,
+            keyboardType = KeyboardType.Password,
+            modifier = Modifier.testTag(AuthTestTags.REGISTER_LASTNAME_FIELD)
         )
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-                .navigationBarsPadding()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = Dimens.spacingLg)
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = Dimens.spacingSm),
-                contentAlignment = Alignment.CenterStart
-            ) {
-                TravelIconButton(
-                    iconRes = R.drawable.ic_arrow_back,
-                    contentDescription = null,
-                    iconTint = Color.White,
-                    modifier = Modifier
-                        .size(Dimens.iconXl)
-                        .clip(CircleShape)
-                        .background(Color.White.copy(alpha = 0.2f)),
-                    onClick = { navController.popBackStack() }
-                )
-            }
+        TravelVerticalSpacer(Dimens.spacingMd)
 
-            TravelVerticalSpacer(Dimens.spacingLg)
+        TravelTextField(
+            value = confirmPassword,
+            onValueChange = { authViewModel.onConfirmPasswordChanged(it) },
+            labelRes = R.string.confirm_password,
+            isPassword = true,
+            keyboardType = KeyboardType.Password,
+            modifier = Modifier.testTag(AuthTestTags.REGISTER_AGE_FIELD)
+        )
 
-            TravelText(
-                textRes = R.string.register_text,
-                style = MaterialTheme.typography.headlineMedium,
-                color = Color.White
-            )
+        if (confirmPassword.isNotBlank() && !passwordsMatch) {
             TravelVerticalSpacer(Dimens.spacingXs)
-            TravelText(
-                textRes = R.string.register_subtitle,
-                style = MaterialTheme.typography.bodyLarge,
-                color = Color.White.copy(alpha = 0.8f)
+            Text(
+                text = stringResource(R.string.passwords_dont_match),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.error
             )
+        }
 
-            TravelVerticalSpacer(Dimens.spacingLg)
+        TravelVerticalSpacer(Dimens.spacingLg)
 
-            TravelCard(
-                style = TravelCardStyle.Translucent,
-                contentPadding = Dimens.spacingLg
-            ) {
-                TravelTextField(
-                    value = username,
-                    onValueChange = { authViewModel.onUsernameChanged(it) },
-                    labelRes = R.string.username,
-                    leadingIconRes = R.drawable.login_ic_person,
-                    modifier = Modifier.testTag(AuthTestTags.REGISTER_NAME_FIELD)
-                )
+        TermsRow(
+            checked = acceptedTerms,
+            onCheckedChange = { authViewModel.onTermsChanged(it) }
+        )
 
-                TravelVerticalSpacer(Dimens.spacingMd)
+        TravelVerticalSpacer(Dimens.spacingLg)
 
-                TravelTextField(
-                    value = password,
-                    onValueChange = { authViewModel.onPasswordChanged(it) },
-                    labelRes = R.string.password,
-                    isPassword = true,
-                    trailingIconRes = R.drawable.login_ic_lock,
-                    keyboardType = KeyboardType.Password,
-                    modifier = Modifier.testTag(AuthTestTags.REGISTER_LASTNAME_FIELD)
-                )
-
-                TravelVerticalSpacer(Dimens.spacingMd)
-
-                TravelTextField(
-                    value = confirmPassword,
-                    onValueChange = { authViewModel.onConfirmPasswordChanged(it) },
-                    labelRes = R.string.confirm_password,
-                    isPassword = true,
-                    trailingIconRes = R.drawable.login_ic_lock,
-                    keyboardType = KeyboardType.Password,
-                    modifier = Modifier.testTag(AuthTestTags.REGISTER_AGE_FIELD)
-                )
-
-                if (confirmPassword.isNotBlank() && !passwordsMatch) {
-                    TravelVerticalSpacer(Dimens.spacingXs)
-                    TravelText(
-                        textRes = R.string.passwords_dont_match,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
-
-                TravelVerticalSpacer(Dimens.spacingMd)
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    TravelCheckbox(
-                        checked = acceptedTerms,
-                        onCheckedChange = { authViewModel.onTermsChanged(it) }
-                    )
-                    TravelText(
-                        textRes = R.string.accept_terms,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-
-                TravelVerticalSpacer(Dimens.spacingMd)
-
-                TravelPrimaryButton(
-                    textRes = R.string.sign_me_up,
-                    modifier = Modifier.testTag(AuthTestTags.REGISTER_SUBMIT_BUTTON),
-                    enabled = isRegisterEnabled,
-                    onClick = {
-                        authViewModel.register(
-                            onSuccess = { onNavigateToLogin() },
-                            onError = { error ->
-                                Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
-                            }
-                        )
+        TravelPrimaryButton(
+            textRes = R.string.register_action,
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(AuthTestTags.REGISTER_SUBMIT_BUTTON),
+            enabled = isRegisterEnabled,
+            trailingArrow = true,
+            onClick = {
+                authViewModel.register(
+                    onSuccess = { onNavigateToLogin() },
+                    onError = { error ->
+                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
                     }
                 )
             }
+        )
 
-            TravelVerticalSpacer(Dimens.spacingMd)
+        TravelVerticalSpacer(Dimens.spacingSm)
 
-            TravelText(
-                textRes = R.string.already_have_account,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.White,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { onNavigateToLogin() }
-                    .padding(vertical = Dimens.spacingSm)
-            )
+        Text(
+            text = stringResource(R.string.already_have_account),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onNavigateToLogin() }
+                .padding(vertical = Dimens.spacingSm)
+        )
 
-            PrivacyPolicyText(context)
-
-            TravelVerticalSpacer(Dimens.spacingMd)
-        }
+        TravelVerticalSpacer(Dimens.screenBottomPadding)
     }
 }
 
 @Composable
-private fun PrivacyPolicyText(context: Context) {
-    TravelText(
-        textRes = R.string.privacy_policy,
-        style = MaterialTheme.typography.bodySmall,
-        color = Color.White.copy(alpha = 0.6f),
-        textAlign = TextAlign.Center,
+private fun Header(onBackClicked: () -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {
-                val url = "https://developers.google.com/ml-kit/terms"
-                val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-                context.startActivity(intent)
-            }
-            .padding(vertical = Dimens.spacingSm)
-    )
+            .padding(top = Dimens.spacingSm)
+    ) {
+        TravelIconButton(
+            iconRes = R.drawable.ic_arrow_back,
+            contentDescription = null,
+            iconTint = MaterialTheme.colorScheme.onBackground,
+            onClick = onBackClicked
+        )
+        Spacer(Modifier.width(Dimens.spacingSm))
+        Text(
+            text = stringResource(R.string.register_step_meta),
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
+@Composable
+private fun EditorialBlock() {
+    val ember = MaterialTheme.colorScheme.secondary
+    Column {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                modifier = Modifier
+                    .width(16.dp)
+                    .height(1.dp)
+                    .background(ember)
+            )
+            Spacer(Modifier.width(Dimens.spacingSm))
+            Text(
+                text = stringResource(R.string.register_kicker).uppercase(),
+                style = MaterialTheme.typography.labelMedium,
+                color = ember
+            )
+        }
+        TravelVerticalSpacer(Dimens.spacingSm)
+        Text(
+            text = headlineWithAccent(
+                title = stringResource(R.string.register_title),
+                accent = stringResource(R.string.register_title_accent),
+                accentColor = ember
+            ),
+            style = MaterialTheme.typography.displaySmall.copy(
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        )
+        TravelVerticalSpacer(Dimens.spacingMd)
+        Text(
+            text = stringResource(R.string.register_subtitle),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
+@Composable
+private fun TermsRow(checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(Dimens.spacingSm),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        TravelCheckbox(
+            checked = checked,
+            onCheckedChange = onCheckedChange
+        )
+        Text(
+            text = stringResource(R.string.accept_terms),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+    }
+}
+
+private fun headlineWithAccent(
+    title: String,
+    accent: String,
+    accentColor: Color
+): AnnotatedString = buildAnnotatedString {
+    append(title)
+    append('\n')
+    withStyle(
+        SpanStyle(
+            color = accentColor,
+            fontStyle = FontStyle.Italic,
+            fontWeight = FontWeight.Normal
+        )
+    ) { append(accent) }
 }
