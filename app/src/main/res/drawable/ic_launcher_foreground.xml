@@ -1,50 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Meridian app icon foreground — bone "T" monogram with ember accent dot
+  in the bottom-right safe zone. Background lives in ic_launcher_background.
+-->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- Globe circle -->
+
+    <!-- Bone "T" glyph -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M54,28 C39.64,28 28,39.64 28,54 C28,68.36 39.64,80 54,80 C68.36,80 80,68.36 80,54 C80,39.64 68.36,28 54,28z" />
-    <!-- Globe horizontal lines -->
+        android:fillColor="#F4EFE7"
+        android:pathData="M28,34 L80,34 L80,46 L60,46 L60,82 L48,82 L48,46 L28,46 Z" />
+
+    <!-- Ember accent dot (bottom-right corner, inside safe zone) -->
     <path
-        android:fillColor="#00000000"
-        android:pathData="M30,54 L78,54"
-        android:strokeWidth="1.5"
-        android:strokeColor="#1B6B4A" />
-    <path
-        android:fillColor="#00000000"
-        android:pathData="M32,44 L76,44"
-        android:strokeWidth="1.2"
-        android:strokeColor="#1B6B4A" />
-    <path
-        android:fillColor="#00000000"
-        android:pathData="M32,64 L76,64"
-        android:strokeWidth="1.2"
-        android:strokeColor="#1B6B4A" />
-    <!-- Globe vertical curve (meridian) -->
-    <path
-        android:fillColor="#00000000"
-        android:pathData="M54,28 C46,36 43,45 43,54 C43,63 46,72 54,80"
-        android:strokeWidth="1.5"
-        android:strokeColor="#1B6B4A" />
-    <path
-        android:fillColor="#00000000"
-        android:pathData="M54,28 C62,36 65,45 65,54 C65,63 62,72 54,80"
-        android:strokeWidth="1.5"
-        android:strokeColor="#1B6B4A" />
-    <!-- Globe outline -->
-    <path
-        android:fillColor="#00000000"
-        android:pathData="M54,28 C39.64,28 28,39.64 28,54 C28,68.36 39.64,80 54,80 C68.36,80 80,68.36 80,54 C80,39.64 68.36,28 54,28z"
-        android:strokeWidth="2"
-        android:strokeColor="#1B6B4A" />
-    <!-- Location pin -->
-    <path
-        android:fillColor="#E74C3C"
-        android:pathData="M65,38 C65,33.58 61.42,30 57,30 C52.58,30 49,33.58 49,38 C49,44 57,52 57,52 C57,52 65,44 65,38z" />
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M57,34.5 C55.07,34.5 53.5,36.07 53.5,38 C53.5,39.93 55.07,41.5 57,41.5 C58.93,41.5 60.5,39.93 60.5,38 C60.5,36.07 58.93,34.5 57,34.5z" />
+        android:fillColor="#F26B4E"
+        android:pathData="M76,76 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 Z" />
 </vector>
