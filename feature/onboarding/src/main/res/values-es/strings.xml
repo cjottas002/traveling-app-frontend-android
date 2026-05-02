@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="onboarding1_title">Tu app de viajes</string>
-    <string name="onboarding1_main_text">
-        Hola, buscamos a millones de usuarios con pasión por viajar.
-        Si eres tú, no lo dudes: abre nuestra app y descubre miles de
-        destinos y herramientas para alquilar coches, consultar el tiempo…
-    </string>
-    <string name="onboarding2_title">¡Encuentra tu destino!</string>
-    <string name="onboarding2_main_text">Hemos ayudado a millones de personas a encontrar su destino perfecto… ¡y tú eres el siguiente!</string>
-    <string name="onboarding3_title">Encuentra al compañero de viaje perfecto</string>
-    <string name="onboarding3_main_text">Hemos ayudado a millones de personas a encontrar su compañero ideal… ¡y tú eres el siguiente!</string>
+    <!-- CTA específico de onboarding (slide 1) -->
+    <string name="onboarding_get_started">Empezar</string>
+
+    <!-- Slide 1 · Discover -->
+    <string name="onboarding1_tag">Sáhara · Erg Chebbi</string>
+    <string name="onboarding1_step">Descubre</string>
+    <string name="onboarding1_title">Descubre lo que</string>
+    <string name="onboarding1_title_accent">aún no buscas.</string>
+    <string name="onboarding1_main_text">Una curaduría de viajes pequeños, lentos y bien escritos.</string>
+
+    <!-- Slide 2 · Reserve -->
+    <string name="onboarding2_tag">Atlas · Marruecos</string>
+    <string name="onboarding2_step">Reserva</string>
+    <string name="onboarding2_title">Reserva con</string>
+    <string name="onboarding2_title_accent">sentido.</string>
+    <string name="onboarding2_main_text">Hoteles, transportes y rutas curados por viajeros con criterio. Cero comisiones ocultas, todo en una vista.</string>
+
+    <!-- Slide 3 · Begin -->
+    <string name="onboarding3_tag">Chefchaouen · Rif</string>
+    <string name="onboarding3_step">Empieza</string>
+    <string name="onboarding3_title">Empieza\ncuando</string>
+    <string name="onboarding3_title_accent">quieras.</string>
+    <string name="onboarding3_main_text">Tu primera reserva está a un toque. Sin compromiso, sin fricción.</string>
 </resources>

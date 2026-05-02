@@ -6,29 +6,43 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import org.example.travelingapp.core.ui.R
 import org.example.travelingapp.domain.entities.PageData
+import org.example.travelingapp.feature.onboarding.R as OnboardingR
+import org.example.travelingapp.ui.theme.Alpha
 import org.example.travelingapp.ui.theme.Dimens
+import org.example.travelingapp.ui.theme.TravelGradients
 import org.example.travelingapp.ui.theme.TravelingAppTheme
+import org.example.travelingapp.ui.views.components.ButtonTone
+import org.example.travelingapp.ui.views.components.TravelPagerIndicator
 import org.example.travelingapp.ui.views.components.TravelPrimaryButton
 import org.example.travelingapp.ui.views.components.TravelSecondaryButton
-import org.example.travelingapp.ui.views.components.TravelText
-import org.example.travelingapp.ui.views.components.TravelPagerIndicator
 import org.example.travelingapp.ui.views.components.TravelVerticalSpacer
-import org.example.travelingapp.core.ui.R
-import org.example.travelingapp.feature.onboarding.R as OnboardingR
 
 @Composable
 fun OnBoardingPage(
@@ -52,14 +66,7 @@ fun OnBoardingPage(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Black.copy(alpha = 0.15f),
-                            Color.Black.copy(alpha = 0.7f)
-                        )
-                    )
-                )
+                .background(TravelGradients.heroOverlay)
         )
 
         Column(
@@ -68,117 +75,214 @@ fun OnBoardingPage(
                 .statusBarsPadding()
                 .navigationBarsPadding()
                 .padding(horizontal = Dimens.screenPadding)
-                .padding(bottom = Dimens.screenBottomPadding),
-            verticalArrangement = Arrangement.Bottom
+                .padding(bottom = Dimens.screenBottomPadding)
         ) {
-            TravelText(
-                text = pageData.title,
-                style = androidx.compose.material3.MaterialTheme.typography.headlineMedium,
-                color = Color.White,
-                modifier = Modifier.fillMaxWidth()
+            HeroTag(
+                text = pageData.tag,
+                modifier = Modifier.padding(top = Dimens.spacingMd)
             )
-            TravelVerticalSpacer(Dimens.spacingSm)
-            TravelText(
+
+            Spacer(Modifier.weight(1f))
+
+            StepIndicator(
+                index = currentPage,
+                total = pageCount,
+                label = pageData.step
+            )
+
+            TravelVerticalSpacer(Dimens.spacingMd)
+
+            Text(
+                text = headlineWithAccent(pageData.title, pageData.titleAccent),
+                style = MaterialTheme.typography.displaySmall.copy(
+                    fontWeight = FontWeight.Medium,
+                    color = Color.White
+                )
+            )
+
+            TravelVerticalSpacer(Dimens.spacingMd)
+
+            Text(
                 text = pageData.desc,
-                style = androidx.compose.material3.MaterialTheme.typography.bodyLarge,
-                color = Color.White.copy(alpha = 0.85f),
-                modifier = Modifier.fillMaxWidth()
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.White.copy(alpha = Alpha.muted)
             )
 
             TravelVerticalSpacer(Dimens.sectionSpacing)
 
-            if (isFirstPage) {
-                TravelPrimaryButton(
-                    textRes = R.string.next,
-                    onClick = onNextClicked,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            } else if (!isLastPage) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(Dimens.spacingSm)
-                ) {
-                    TravelSecondaryButton(
-                        textRes = R.string.skip,
-                        onClick = onSkipClicked,
-                        modifier = Modifier.weight(1f)
-                    )
-                    TravelPrimaryButton(
-                        textRes = R.string.next,
-                        onClick = onNextClicked,
-                        modifier = Modifier.weight(1f)
-                    )
-                }
-            } else {
-                TravelPrimaryButton(
-                    textRes = R.string.login,
-                    onClick = onLoginClicked,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+            Actions(
+                isFirstPage = isFirstPage,
+                isLastPage = isLastPage,
+                onNextClicked = onNextClicked,
+                onSkipClicked = onSkipClicked,
+                onLoginClicked = onLoginClicked
+            )
 
             TravelVerticalSpacer(Dimens.cardSpacing)
 
             TravelPagerIndicator(
                 size = pageCount,
                 currentPage = currentPage,
-                activeColor = Color.White,
-                inactiveColor = Color.White.copy(alpha = 0.4f),
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
-
-            TravelVerticalSpacer(Dimens.spacingSm)
         }
     }
 }
 
-@Preview(showBackground = true, name = "Onboarding - First")
+/** Top-aligned location chip: short ember rule + small mono uppercase text. */
+@Composable
+private fun HeroTag(text: String, modifier: Modifier = Modifier) {
+    val emberColor = MaterialTheme.colorScheme.secondary
+    Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier) {
+        Box(
+            modifier = Modifier
+                .width(16.dp)
+                .height(1.dp)
+                .background(emberColor)
+        )
+        Spacer(Modifier.width(Dimens.spacingSm))
+        Text(
+            text = text.uppercase(),
+            style = MaterialTheme.typography.labelSmall,
+            color = Color.White.copy(alpha = Alpha.muted)
+        )
+    }
+}
+
+/** Step indicator: "01 / 03 · DISCOVER" preceded by a short ember rule. */
+@Composable
+private fun StepIndicator(index: Int, total: Int, label: String) {
+    val emberColor = MaterialTheme.colorScheme.secondary
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Box(
+            modifier = Modifier
+                .width(16.dp)
+                .height(1.dp)
+                .background(emberColor)
+        )
+        Spacer(Modifier.width(Dimens.spacingSm))
+        Text(
+            text = "%02d / %02d · %s".format(index + 1, total, label.uppercase()),
+            style = MaterialTheme.typography.labelMedium,
+            color = emberColor
+        )
+    }
+}
+
+/** Buttons row, varies per slide. */
+@Composable
+private fun Actions(
+    isFirstPage: Boolean,
+    isLastPage: Boolean,
+    onNextClicked: () -> Unit,
+    onSkipClicked: () -> Unit,
+    onLoginClicked: () -> Unit
+) {
+    when {
+        isFirstPage -> {
+            TravelPrimaryButton(
+                textRes = OnboardingR.string.onboarding_get_started,
+                onClick = onNextClicked,
+                tone = ButtonTone.Ember
+            )
+        }
+        isLastPage -> {
+            TravelPrimaryButton(
+                textRes = R.string.login,
+                onClick = onLoginClicked,
+                tone = ButtonTone.Ember
+            )
+        }
+        else -> {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(Dimens.spacingSm)
+            ) {
+                TravelSecondaryButton(
+                    textRes = R.string.skip,
+                    onClick = onSkipClicked,
+                    onDark = true,
+                    modifier = Modifier.weight(1f)
+                )
+                TravelPrimaryButton(
+                    textRes = R.string.next,
+                    onClick = onNextClicked,
+                    tone = ButtonTone.Ember,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+    }
+}
+
+/** Build the headline as "title" + optional italic ember accent on a new line. */
+private fun headlineWithAccent(title: String, accent: String?): AnnotatedString =
+    buildAnnotatedString {
+        append(title)
+        if (!accent.isNullOrBlank()) {
+            append('\n')
+            withStyle(
+                SpanStyle(
+                    color = Color(0xFFF26B4E), // ember — kept literal because we're on a forced-dark hero
+                    fontStyle = FontStyle.Italic,
+                    fontWeight = FontWeight.Normal
+                )
+            ) { append(accent) }
+        }
+    }
+
+@Preview(showBackground = true, name = "Onboarding · First")
 @Composable
 private fun OnBoardingPageFirstPreview() {
     TravelingAppTheme {
         OnBoardingPage(
             pageData = PageData(
                 image = OnboardingR.drawable.onboarding1_image,
-                title = "Your travel app",
-                desc = "Hello, we're looking for millions of users with a passion for travel."
+                tag = "Sáhara · Erg Chebbi",
+                step = "Descubre",
+                title = "Descubre lo que",
+                titleAccent = "aún no buscas.",
+                desc = "Una curaduría de viajes pequeños, lentos y bien escritos."
             ),
             isFirstPage = true,
-            isLastPage = false,
             currentPage = 0,
             pageCount = 3
         )
     }
 }
 
-@Preview(showBackground = true, name = "Onboarding - Middle")
+@Preview(showBackground = true, name = "Onboarding · Middle")
 @Composable
 private fun OnBoardingPageMiddlePreview() {
     TravelingAppTheme {
         OnBoardingPage(
             pageData = PageData(
                 image = OnboardingR.drawable.onboarding2_image,
-                title = "Find Your Match!",
-                desc = "We've helped millions across the nation find their perfect match."
+                tag = "Atlas · Marruecos",
+                step = "Reserva",
+                title = "Reserva con",
+                titleAccent = "sentido.",
+                desc = "Hoteles, transportes y rutas curados por viajeros con criterio."
             ),
-            isFirstPage = false,
-            isLastPage = false,
             currentPage = 1,
             pageCount = 3
         )
     }
 }
 
-@Preview(showBackground = true, name = "Onboarding - Last")
+@Preview(showBackground = true, name = "Onboarding · Last")
 @Composable
 private fun OnBoardingPageLastPreview() {
     TravelingAppTheme {
         OnBoardingPage(
             pageData = PageData(
                 image = OnboardingR.drawable.onboarding3_image,
-                title = "Find the Perfect Roommate",
-                desc = "We've helped millions across the nation find their perfect match."
+                tag = "Chefchaouen · Rif",
+                step = "Empieza",
+                title = "Empieza\ncuando",
+                titleAccent = "quieras.",
+                desc = "Tu primera reserva está a un toque."
             ),
-            isFirstPage = false,
             isLastPage = true,
             currentPage = 2,
             pageCount = 3
