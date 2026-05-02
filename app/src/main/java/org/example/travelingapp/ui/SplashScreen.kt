@@ -1,23 +1,44 @@
 package org.example.travelingapp.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
-import org.example.travelingapp.R
+import org.example.travelingapp.BuildConfig
 import org.example.travelingapp.navigation.Route
+import org.example.travelingapp.ui.theme.Alpha
+import org.example.travelingapp.ui.theme.Dimens
+import org.example.travelingapp.ui.theme.TravelMonoFamily
 import org.example.travelingapp.ui.theme.TravelingAppTheme
+
+// Splash is intentionally always dark — it's the brand reveal, not a themed surface.
+private val SplashInk = Color(0xFF0B2A3A)
+private val SplashBone = Color(0xFFF4EFE7)
+private val SplashEmber = Color(0xFFF26B4E)
+private val SplashMarkSize = 12.dp
 
 @Composable
 fun SplashScreen(navController: NavController, store: Boolean) {
@@ -35,21 +56,66 @@ fun SplashScreen(navController: NavController, store: Boolean) {
 @Composable
 private fun SplashContent() {
     Box(
-        contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(SplashInk)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.splash_image),
-            contentDescription = stringResource(R.string.app_name),
+        Column(
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            // Ember accent square
+            Box(
+                modifier = Modifier
+                    .size(SplashMarkSize)
+                    .background(SplashEmber)
+            )
+            Spacer(Modifier.height(Dimens.spacingMd))
+
+            // Wordmark — "Traveling" with italic ember "ing"
+            Text(
+                text = wordmark(),
+                style = MaterialTheme.typography.displayMedium.copy(
+                    fontSize = 44.sp,
+                    lineHeight = 48.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = SplashBone
+                )
+            )
+            Spacer(Modifier.height(Dimens.spacingMd))
+
+            // Tagline — mono uppercase muted
+            Text(
+                text = "— SINCE 2026",
+                style = MaterialTheme.typography.labelSmall,
+                color = SplashBone.copy(alpha = Alpha.muted)
+            )
+        }
+
+        // Version pinned to bottom centre
+        Text(
+            text = "v ${BuildConfig.VERSION_NAME} · build ${BuildConfig.VERSION_CODE}",
+            style = MaterialTheme.typography.labelSmall.copy(
+                fontFamily = TravelMonoFamily
+            ),
+            color = SplashBone.copy(alpha = Alpha.divider * 3),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = Dimens.spacingXl)
         )
     }
 }
 
-@Preview(showBackground = true, name = "Splash")
+/** "Travel" + italic ember "ing". */
+private fun wordmark(): AnnotatedString = buildAnnotatedString {
+    append("Travel")
+    withStyle(SpanStyle(color = SplashEmber, fontStyle = FontStyle.Italic)) {
+        append("ing")
+    }
+}
+
+@Preview(showBackground = true, name = "Splash · Meridian")
 @Composable
 private fun SplashScreenPreview() {
     TravelingAppTheme {
