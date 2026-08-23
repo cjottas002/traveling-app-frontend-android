@@ -32,7 +32,7 @@ Arquitectura: **Clean Architecture multi-modulo** con capas `core / domain / dat
 ## Estructura del proyecto
 
 ```
-traveling-app-frontend-android/
+traveling-app/
 ├── app/                         # Punto de entrada, MainActivity, NavGraph, modulos Hilt raiz
 ├── build-logic/
 │   └── convention/              # Convention plugins propios (AndroidLibrary, AndroidFeature, AndroidHilt)
